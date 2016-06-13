@@ -15,5 +15,11 @@
         {
             Assert.That(2 + 2, Is.EqualTo(5));
         }
+
+        [Test]
+        public static void Ignore()
+        {
+            Assert.Ignore();
+        }
     }
 }

@@ -54,7 +54,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Fakes\FakeTestListener.cs" />
-    <Compile Include="NUnitTestRunnerTests.cs" />
+    <Compile Include="NUnitConsoleTestRunnerTests.cs" />
+    <Compile Include="NUnitEngineTestRunnerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
