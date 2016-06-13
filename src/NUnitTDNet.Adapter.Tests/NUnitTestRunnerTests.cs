@@ -6,6 +6,7 @@
     using Examples;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Threading;
+
     [TestClass]
     public class NUnitTestRunnerTests
     {
