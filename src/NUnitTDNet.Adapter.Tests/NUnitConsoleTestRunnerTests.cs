@@ -24,7 +24,7 @@
         }
 
         [TestMethod]
-        public void RunMember_SomeTestsFail_FailedCount1()
+        public void RunMember_SomeTestCasesPassAndFail_PassAndFail()
         {
             var testRunner = new NUnitConsoleTestRunner();
             var testListener = new FakeTestListener();

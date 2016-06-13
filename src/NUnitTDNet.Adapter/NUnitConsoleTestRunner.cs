@@ -15,30 +15,13 @@
 
         public TestRunState RunMember(ITestListener testListener, Assembly assembly, MemberInfo member)
         {
-            string testPath = getTestPath(member);
+            string testPath = Utilities.GetTestPath(member);
             return executeConsoleRunner(testListener, assembly, testPath);
         }
 
         public TestRunState RunNamespace(ITestListener testListener, Assembly assembly, string ns)
         {
             return executeConsoleRunner(testListener, assembly, ns);
-        }
-
-        static string getTestPath(MemberInfo member)
-        {
-            if (member is Type)
-            {
-                Type type = (Type)member;
-                return type.FullName;
-            }
-
-            if (member is MethodInfo)
-            {
-                MethodInfo methodInfo = (MethodInfo)member;
-                return methodInfo.DeclaringType.FullName + "." + methodInfo.Name;
-            }
-
-            throw new Exception("Member type not supported: " + member.GetType());
         }
 
         TestRunState executeConsoleRunner(ITestListener testListener, Assembly testAssembly, string testPath)
@@ -57,6 +40,7 @@
             }
 
             arguments += " --process:InProcess";
+            //arguments += " --teamcity";
 
             var startInfo = new ProcessStartInfo(exeFile, arguments);
             startInfo.UseShellExecute = false;

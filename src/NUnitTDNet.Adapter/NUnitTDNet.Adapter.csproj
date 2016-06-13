@@ -55,6 +55,7 @@
     <Compile Include="NUnitEngineResolver.cs" />
     <Compile Include="NUnitEngineTestRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

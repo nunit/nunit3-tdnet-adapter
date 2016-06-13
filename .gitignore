@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /.vs/NUnitTDNetAdapter/v14
 /packages/NUnit.3.2.1
 /src/NUnitTDNet.Adapter/obj/Debug
@@ -19,12 +20,25 @@
 =======
 ﻿
 /packages/NUnit.3.2.1
+=======
+/.vs
+/packages
+/src/NUnitTDNet.Adapter/obj
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/TestResult.xml
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/bin
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/obj
+/src/NUnitTDNet.Adapter.Tests/*.user
+/src/NUnitTDNet.Adapter.Tests/bin
+/src/NUnitTDNet.Adapter.Tests/obj
 /src/NUnitTDNet.Adapter/bin/Debug
-/src/NUnitTDNet.Adapter/obj/Debug
+>>>>>>> engine-test-runner
+/src/NUnitTDNet.Adapter/bin/Debug
+/src/NUnitTDNet.Adapter/obj
 /src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/bin/Debug
 /src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/obj/Debug
 /src/NUnitTDNet.Adapter.Tests/bin/Debug
 /src/NUnitTDNet.Adapter.Tests/obj/Debug
+<<<<<<< HEAD
 /.vs/NUnitTDNetAdapter/v14
 <<<<<<< HEAD
 /packages
@@ -33,3 +47,5 @@
 >>>>>>> 34594873f9dce6212c27afbff60d659aa0d3f769
 /src/NUnitTDNet.Adapter.Tests/*.user
 >>>>>>> master
+=======
+>>>>>>> engine-test-runner
