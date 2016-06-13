@@ -1,35 +1,16 @@
-<<<<<<< HEAD
-/.vs/NUnitTDNetAdapter/v14
-/packages/NUnit.3.2.1
-/src/NUnitTDNet.Adapter/obj/Debug
-/packages/NUnit.Console.3.2.1
-/packages/NUnit.ConsoleRunner.3.2.1
-/packages/NUnit.Engine.Tool.3.2.1
-/packages/NUnit.Extension.NUnitProjectLoader.3.2.1
-/packages/NUnit.Extension.NUnitV2Driver.3.2.1
-/packages/NUnit.Extension.NUnitV2ResultWriter.3.2.1
-/packages/NUnit.Extension.VSProjectLoader.3.2.1
-/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/TestResult.xml
-/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/bin/Debug
-/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/obj/Debug
-/src/NUnitTDNet.Adapter.Tests/*.user
-/src/NUnitTDNet.Adapter.Tests/bin/Debug
-/src/NUnitTDNet.Adapter.Tests/obj/Debug
-/src/NUnitTDNet.Adapter/bin/Debug
-=======
-﻿
-/packages/NUnit.3.2.1
-/src/NUnitTDNet.Adapter/bin/Debug
-/src/NUnitTDNet.Adapter/obj/Debug
-/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/bin/Debug
-/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/obj/Debug
-/src/NUnitTDNet.Adapter.Tests/bin/Debug
-/src/NUnitTDNet.Adapter.Tests/obj/Debug
-/.vs/NUnitTDNetAdapter/v14
-<<<<<<< HEAD
+/.vs
 /packages
+/src/NUnitTDNet.Adapter/obj
 /src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/TestResult.xml
-=======
->>>>>>> 34594873f9dce6212c27afbff60d659aa0d3f769
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/bin
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/obj
 /src/NUnitTDNet.Adapter.Tests/*.user
->>>>>>> master
+/src/NUnitTDNet.Adapter.Tests/bin
+/src/NUnitTDNet.Adapter.Tests/obj
+/src/NUnitTDNet.Adapter/bin/Debug
+/src/NUnitTDNet.Adapter/bin/Debug
+/src/NUnitTDNet.Adapter/obj
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/bin/Debug
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/obj/Debug
+/src/NUnitTDNet.Adapter.Tests/bin/Debug
+/src/NUnitTDNet.Adapter.Tests/obj/Debug
