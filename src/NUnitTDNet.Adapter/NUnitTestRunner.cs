@@ -6,7 +6,7 @@
     using System.Reflection;
     using TestDriven.Framework;
 
-    public class NUnitConsoleTestRunner : ITestRunner
+    public class NUnitTestRunner : ITestRunner
     {
         public TestRunState RunAssembly(ITestListener testListener, Assembly assembly)
         {
@@ -55,8 +55,6 @@
             {
                 arguments += " --test=" + quote(testPath);
             }
-
-            arguments += " --process:InProcess";
 
             var startInfo = new ProcessStartInfo(exeFile, arguments);
             startInfo.UseShellExecute = false;
