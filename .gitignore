@@ -1,0 +1,11 @@
+﻿
+/packages/NUnit.3.2.1
+/src/NUnitTDNet.Adapter/bin/Debug
+/src/NUnitTDNet.Adapter/obj/Debug
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/bin/Debug
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/obj/Debug
+/src/NUnitTDNet.Adapter.Tests/bin/Debug
+/src/NUnitTDNet.Adapter.Tests/obj/Debug
+/.vs/NUnitTDNetAdapter/v14
+/packages
+/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/TestResult.xml
