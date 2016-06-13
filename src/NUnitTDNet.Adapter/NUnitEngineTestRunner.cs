@@ -23,7 +23,7 @@
         {
             using (new NUnitEngineResolver())
             {
-                string testPath = getTestPath(member);
+                string testPath = Utilities.GetTestPath(member);
                 return run(testListener, assembly, testPath);
             }
         }
@@ -34,23 +34,6 @@
             {
                 return run(testListener, assembly, ns);
             }
-        }
-
-        static string getTestPath(MemberInfo member)
-        {
-            if (member is Type)
-            {
-                Type type = (Type)member;
-                return type.FullName;
-            }
-
-            if (member is MethodInfo)
-            {
-                MethodInfo methodInfo = (MethodInfo)member;
-                return methodInfo.DeclaringType.FullName + "." + methodInfo.Name;
-            }
-
-            throw new Exception("Member type not supported: " + member.GetType());
         }
 
         TDF.TestRunState run(TDF.ITestListener testListener, Assembly testAssembly, string testPath)
