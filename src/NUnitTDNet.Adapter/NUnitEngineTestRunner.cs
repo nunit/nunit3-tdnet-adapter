@@ -58,10 +58,15 @@
                 builder.AddTest(testPath);
                 var filter = builder.GetFilter();
 
-                XmlNode result = runner.Run(eventHandler, filter);
-            }
+                var count = runner.CountTestCases(filter);
+                if(count == 0)
+                {
+                    return TDF.TestRunState.NoTests;
+                }
 
-            return eventHandler.TestRunState;
+                XmlNode result = runner.Run(eventHandler, filter);
+                return eventHandler.TestRunState;
+            }
         }
 
         public class TestEventListener : ITestEventListener
@@ -76,6 +81,7 @@
             public TestEventListener(TDF.ITestListener testListener)
             {
                 this.testListener = testListener;
+                TestRunState = TDF.TestRunState.Success;
             }
 
             public void OnTestEvent(string report)
@@ -93,6 +99,7 @@
                     {
                         case "Failed":
                             testResult.State = TDF.TestState.Failed;
+                            TestRunState = TDF.TestRunState.Failure;
                             break;
                         case "Passed":
                             testResult.State = TDF.TestState.Passed;
