@@ -36,6 +36,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
     <Reference Include="TestDriven.Framework">
       <HintPath>..\..\lib\TestDriven.Framework.dll</HintPath>
     </Reference>
@@ -48,15 +50,20 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Expect\ExpectAttributeExplorer.cs" />
+    <Compile Include="Expect\ExpectTests.cs" />
     <Compile Include="Fakes\FakeTestListener.cs" />
     <Compile Include="NUnitConsoleTestRunnerTests.cs" />
     <Compile Include="NUnitEngineTestRunnerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Expect\ExpectAttributeExplorerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NUnitTDNet.Adapter.Examples\NUnitTDNet.Adapter.Examples\NUnitTDNet.Adapter.Examples.csproj">

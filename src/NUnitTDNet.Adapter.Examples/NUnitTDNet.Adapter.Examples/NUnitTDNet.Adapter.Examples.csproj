@@ -20,6 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -48,6 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomTestRunner.cs" />
+    <Compile Include="Expected\ExpectAttribute.cs" />
+    <Compile Include="Expected\ExpectClass.cs" />
+    <Compile Include="Expected\ClassTests.cs" />
+    <Compile Include="Expected\MethodTests.cs" />
+    <Compile Include="Expected\NestedClassTests.cs" />
+    <Compile Include="Expected\OverloadedMethodTests.cs" />
+    <Compile Include="Expected\TestCaseTests.cs" />
     <Compile Include="SomeTestCases.cs" />
     <Compile Include="SomeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
