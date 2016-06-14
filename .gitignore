@@ -8,3 +8,5 @@
 /src/NUnitTDNet.Adapter.Tests/obj/Debug
 /src/NUnitTDNet.Adapter/bin/Debug
 /src/NUnitTDNet.Adapter/obj/Debug
+*.suo
+*.user

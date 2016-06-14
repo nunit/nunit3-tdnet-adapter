@@ -41,11 +41,9 @@
                 return null;
             }
 
-            //var dirs = Directory.GetDirectories(packagesDir, "NUnit.Engine.*");
             var dirs = Directory.GetDirectories(packagesDir, "NUnit.ConsoleRunner.*");
             foreach (string dir in dirs)
             {
-                //var engineDir = Path.Combine(dir, "lib");
                 var engineDir = Path.Combine(dir, "tools");
                 var engineFile = Path.Combine(engineDir, "nunit.engine.dll");
                 if (File.Exists(engineFile))
