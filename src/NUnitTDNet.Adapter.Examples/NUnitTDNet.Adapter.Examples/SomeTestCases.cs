@@ -2,6 +2,9 @@
 
 namespace NUnitTDNet.Adapter.Examples
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SomeTestCases
     {
         [TestCase(1)]
