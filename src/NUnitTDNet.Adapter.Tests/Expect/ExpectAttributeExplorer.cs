@@ -15,19 +15,44 @@
     {
         public const string XmlFile = "Expect.xml";
 
-        public static TextWriter writer; 
+        static void Main()
+        {
+            new ExpectXmlWriter().Write(XmlFile);
+        }
+
+        class ExpectXmlWriter
+        {
+            public TextWriter writer;
+
+            public void Write(string xmlFile)
+            {
+                using (writer = new StreamWriter(XmlFile))
+                {
+                    writer.WriteLine("<Expects>");
+                    TestAssembly = typeof(ExpectAttribute).Assembly;
+                    var memberVisitor = new MemberVisitor(visitor);
+                    memberVisitor.VisitAssembly(TestAssembly);
+                    writer.WriteLine("</Expects>");
+                }
+            }
+
+            void visitor(MemberInfo member)
+            {
+                var expectAttributes = member.GetCustomAttributes(typeof(ExpectAttribute), false);
+                foreach (ExpectAttribute expectAttribute in expectAttributes)
+                {
+                    string name = GetName(member);
+                    writer.WriteLine(string.Format("    <Expect Name='{0}' />", name));
+                }
+            }
+        }
 
         [AssemblyInitialize]
         public static void FindExpectAttributes(TestContext testContext)
         {
-            using (writer = new StreamWriter(XmlFile))
-            {
-                writer.WriteLine("<Expects>");
-                TestAssembly = typeof(ExpectAttribute).Assembly;
-                var memberVisitor = new MemberVisitor(visitAttributes);
-                memberVisitor.VisitAssembly(TestAssembly);
-                writer.WriteLine("</Expects>");
-            }
+            TestAssembly = typeof(ExpectAttribute).Assembly;
+            var memberVisitor = new MemberVisitor(visitAttributes);
+            memberVisitor.VisitAssembly(TestAssembly);
         }
 
         public static Assembly TestAssembly
@@ -46,7 +71,6 @@
                 string name = GetName(member);
                 memberDictionary.Add(name, member);
                 expectAttributeDictionary.Add(name, expectAttribute);
-                writer.WriteLine(string.Format("    <Expect Name='{0}' />", name));
             }
         }
 
