@@ -88,13 +88,13 @@
             {
                 if (report.StartsWith("<test-case "))
                 {
+                    var testResult = new TDF.TestResult();
+
                     var doc = new XmlDocument();
                     doc.LoadXml(report);
-                    var fullname = doc.DocumentElement.GetAttribute("fullname");
-                    var methodname = doc.DocumentElement.GetAttribute("methodname");
-                    var result = doc.DocumentElement.GetAttribute("result");
+                    testResult.Name = doc.DocumentElement.GetAttribute("fullname");
 
-                    var testResult = new TDF.TestResult();
+                    var result = doc.DocumentElement.GetAttribute("result");
                     switch (result)
                     {
                         case "Failed":
