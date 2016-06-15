@@ -1,6 +1,6 @@
-﻿/.vs
-/packages
-/**/bin/Debug
-/**/obj/Debug
+﻿/.vs/
+/packages/
+**/bin/Debug/
+**/obj/Debug/
 *.suo
 *.user
