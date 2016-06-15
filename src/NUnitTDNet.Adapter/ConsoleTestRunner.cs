@@ -6,7 +6,7 @@
     using System.Reflection;
     using TestDriven.Framework;
 
-    public class NUnitConsoleTestRunner : ITestRunner
+    public class ConsoleTestRunner : ITestRunner
     {
         public TestRunState RunAssembly(ITestListener testListener, Assembly assembly)
         {
