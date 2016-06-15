@@ -38,8 +38,6 @@
 
         TDF.TestRunState run(TDF.ITestListener testListener, Assembly testAssembly, string testPath)
         {
-            var eventHandler = new TestEventListener(testListener);
-
             // Can't find find TestEngine when not on AppDomain.BaseDirectory or registry.
             //using (ITestEngine engine = TestEngineActivator.CreateInstance(false))
 
@@ -58,11 +56,13 @@
                 builder.AddTest(testPath);
                 var filter = builder.GetFilter();
 
-                var count = runner.CountTestCases(filter);
-                if(count == 0)
+                var totalTests = runner.CountTestCases(filter);
+                if(totalTests == 0)
                 {
                     return TDF.TestRunState.NoTests;
                 }
+
+                var eventHandler = new TestEventListener(testListener, totalTests);
 
                 XmlNode result = runner.Run(eventHandler, filter);
                 return eventHandler.TestRunState;
@@ -72,29 +72,48 @@
         public class TestEventListener : ITestEventListener
         {
             TDF.ITestListener testListener;
+            int totalTests;
 
             public TDF.TestRunState TestRunState
             {
                 get; private set;
             }
 
-            public TestEventListener(TDF.ITestListener testListener)
+            public TestEventListener(TDF.ITestListener testListener, int totalTests)
             {
                 this.testListener = testListener;
+                this.totalTests = totalTests;
                 TestRunState = TDF.TestRunState.Success;
             }
 
             public void OnTestEvent(string report)
             {
-                if (report.StartsWith("<test-case "))
+                var doc = new XmlDocument();
+                doc.LoadXml(report);
+                var element = doc.DocumentElement;
+
+                if (element != null && element.Name == "test-case")
                 {
-                    var doc = new XmlDocument();
-                    doc.LoadXml(report);
-                    var fullname = doc.DocumentElement.GetAttribute("fullname");
-                    var methodname = doc.DocumentElement.GetAttribute("methodname");
-                    var result = doc.DocumentElement.GetAttribute("result");
+                    var testCaseElement = doc.DocumentElement;
 
                     var testResult = new TDF.TestResult();
+                    testResult.TotalTests = totalTests;
+
+                    testResult.Name = element.GetAttribute("fullname");
+
+                    var message = element.SelectSingleNode("//message");
+                    if (message != null)
+                    {
+                        testResult.Message = message.InnerText;
+                    }
+
+                    var stackTrace = element.SelectSingleNode("//stack-trace");
+                    if (stackTrace != null)
+                    {
+                        testResult.StackTrace = stackTrace.InnerText;
+                    }
+
+                    var result = element.GetAttribute("result");
                     switch (result)
                     {
                         case "Failed":

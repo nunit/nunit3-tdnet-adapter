@@ -8,13 +8,13 @@
     {
         [TestCase(1)]
         [TestCase(2)]
-        [Expect(TestRunState.Success, PassedCount = 2)]
+        [ExpectTestRun(TestRunState.Success, PassedCount = 2)]
         public void TwoTestCases(int i)
         {
         }
 
-        [TestCase(1, 2)]
-        [Expect(TestRunState.Failure, FailedCount = 1)]
+        [TestCase(0, 0)]
+        [ExpectTestRun(TestRunState.Failure, FailedCount = 1)]
         public void TooManyArgs(int i)
         {
         }

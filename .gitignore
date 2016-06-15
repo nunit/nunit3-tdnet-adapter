@@ -1,12 +1,6 @@
-﻿/.vs
-/packages
-/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/TestResult.xml
-/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/bin/Debug
-/src/NUnitTDNet.Adapter.Examples/NUnitTDNet.Adapter.Examples/obj/Debug
-/src/NUnitTDNet.Adapter.Tests/*.user
-/src/NUnitTDNet.Adapter.Tests/bin/Debug
-/src/NUnitTDNet.Adapter.Tests/obj/Debug
-/src/NUnitTDNet.Adapter/bin/Debug
-/src/NUnitTDNet.Adapter/obj/Debug
+﻿/.vs/
+/packages/
+**/bin/Debug/
+**/obj/Debug/
 *.suo
 *.user
