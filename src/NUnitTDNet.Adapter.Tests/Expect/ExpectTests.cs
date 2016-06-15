@@ -114,6 +114,28 @@
                     Assert.AreEqual(expectTestAttribute.State, testResult.State, message);
                 }
             }
+
+            if (expectAttribute is ExpectOutputLineAttribute)
+            {
+                var expectOutputLineAttribute = (ExpectOutputLineAttribute)expectAttribute;
+
+                Assert.IsTrue(testListener.OutputLines.Count > 0, "There were no output lines.");
+                var outputLineAndCategory = testListener.OutputLines[0];
+                var text = outputLineAndCategory.Item1;
+                var category = outputLineAndCategory.Item2;
+
+                if (expectOutputLineAttribute.Text != null)
+                {
+                    string message = string.Format("Checking output line for test: " + name);
+                    Assert.AreEqual(expectOutputLineAttribute.Text, text, message);
+                }
+
+                if (expectOutputLineAttribute.Category != null)
+                {
+                    string message = string.Format("Checking output category for test: " + name);
+                    Assert.AreEqual(expectOutputLineAttribute.Category, category, message);
+                }
+            }
         }
     }
 }

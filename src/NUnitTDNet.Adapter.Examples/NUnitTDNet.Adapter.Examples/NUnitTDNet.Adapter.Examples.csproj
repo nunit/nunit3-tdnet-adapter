@@ -58,6 +58,7 @@
     <Compile Include="Expected\OverloadedMethodTests.cs" />
     <Compile Include="Expected\TestCaseTests.cs" />
     <Compile Include="Expected\StateTests.cs" />
+    <Compile Include="Expected\TestOutputLines.cs" />
     <Compile Include="Expected\TestTotalTests.cs" />
     <Compile Include="Expected\TestStackTraces.cs" />
     <Compile Include="Expected\TestMessages.cs" />

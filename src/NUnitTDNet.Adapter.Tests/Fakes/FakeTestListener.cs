@@ -6,6 +6,11 @@
 
     class FakeTestListener : ITestListener
     {
+        public FakeTestListener()
+        {
+            OutputLines = new List<Tuple<string, Category>>();
+        }
+
         Dictionary<string, TestResult> testResultDictionary = new Dictionary<string, TestResult>();
 
         public int PassedCount
@@ -50,6 +55,13 @@
 
         public void WriteLine(string text, Category category)
         {
+            var line = new Tuple<string, Category>(text, category);
+            OutputLines.Add(line);
+        }
+
+        public List<Tuple<string, Category>> OutputLines
+        {
+            get; private set;
         }
 
         public TestResult GetTestResult(string name)

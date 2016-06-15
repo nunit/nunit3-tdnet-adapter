@@ -78,4 +78,29 @@
             get; private set;
         }
     }
+
+
+    public class ExpectOutputLineAttribute : ExpectAttribute
+    {
+        public ExpectOutputLineAttribute(string text)
+        {
+            Text = text;
+        }
+
+        public ExpectOutputLineAttribute(string text, Category category)
+        {
+            Text = text;
+            Category = category;
+        }
+
+        public string Text
+        {
+            get; private set;
+        }
+
+        public Category? Category
+        {
+            get; private set;
+        }
+    }
 }

@@ -113,6 +113,19 @@
                         testResult.StackTrace = stackTrace.InnerText;
                     }
 
+                    var output = element.SelectSingleNode("//output");
+                    if (output != null)
+                    {
+                        var text = output.InnerText;
+                        var newLine = Environment.NewLine;
+                        if(text.EndsWith(newLine))
+                        {
+                            text = text.Substring(0, text.Length - newLine.Length);
+                        }
+
+                        testListener.WriteLine(text, TDF.Category.Output);
+                    }
+
                     var result = element.GetAttribute("result");
                     switch (result)
                     {
