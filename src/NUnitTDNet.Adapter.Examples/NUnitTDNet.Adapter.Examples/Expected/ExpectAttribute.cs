@@ -5,11 +5,11 @@
 
     public class ExpectAttribute : Attribute
     {
-        public ExpectAttribute()
-        {
-        }
+    }
 
-        public ExpectAttribute(TestRunState testRunState)
+    public class ExpectTestRunAttribute : ExpectAttribute
+    {
+        public ExpectTestRunAttribute(TestRunState testRunState)
         {
             TestRunState = testRunState;
         }
@@ -30,6 +30,19 @@
         }
 
         public int FailedCount
+        {
+            get; set;
+        }
+    }
+
+    public class ExpectTestAttribute : ExpectAttribute
+    {
+        public ExpectTestAttribute(string name)
+        {
+            Name = name;
+        }
+
+        public string Name
         {
             get; set;
         }

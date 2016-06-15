@@ -2,18 +2,18 @@
 {
     using TestDriven.Framework;
 
-    [Expect(TestRunState.NoTests)]
+    [ExpectTestRun(TestRunState.NoTests)]
     public class ExpectClass
     {
-        [Expect(TestRunState.NoTests)]
+        [ExpectTestRun(TestRunState.NoTests)]
         public static void ExpectMethod()
         {
         }
 
-        [Expect(TestRunState.NoTests)]
+        [ExpectTestRun(TestRunState.NoTests)]
         public class ExpectNestedClass
         {
-            [Expect(TestRunState.NoTests)]
+            [ExpectTestRun(TestRunState.NoTests)]
             public static void ExpectMethod()
             {
             }

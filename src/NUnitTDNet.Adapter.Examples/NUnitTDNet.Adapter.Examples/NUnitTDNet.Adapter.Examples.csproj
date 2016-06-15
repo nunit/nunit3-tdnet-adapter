@@ -57,6 +57,7 @@
     <Compile Include="Expected\NestedClassTests.cs" />
     <Compile Include="Expected\OverloadedMethodTests.cs" />
     <Compile Include="Expected\TestCaseTests.cs" />
+    <Compile Include="Expected\TestNames.cs" />
     <Compile Include="SomeTestCases.cs" />
     <Compile Include="SomeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
