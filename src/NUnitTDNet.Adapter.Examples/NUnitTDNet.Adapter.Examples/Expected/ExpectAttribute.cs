@@ -37,14 +37,45 @@
 
     public class ExpectTestAttribute : ExpectAttribute
     {
+        public ExpectTestAttribute(string name, TestState testState) : this(name)
+        {
+            State = testState;
+        }
+
         public ExpectTestAttribute(string name)
         {
             Name = name;
+            TotalTests = -1; // negative is unspecified
         }
 
         public string Name
         {
+            get; private set;
+        }
+
+        public string Message
+        {
             get; set;
+        }
+
+        public string StackTraceStartsWith
+        {
+            get; set;
+        }
+
+        public string StackTraceEndsWith
+        {
+            get; set;
+        }
+
+        public int TotalTests
+        {
+            get; set;
+        }
+
+        public TestState? State
+        {
+            get; private set;
         }
     }
 }
