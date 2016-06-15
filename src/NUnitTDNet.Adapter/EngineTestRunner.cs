@@ -9,11 +9,11 @@
     using System.Xml;
     using TDF = TestDriven.Framework;
 
-    public class NUnitEngineTestRunner : TDF.ITestRunner
+    public class EngineTestRunner : TDF.ITestRunner
     {
         public TDF.TestRunState RunAssembly(TDF.ITestListener testListener, Assembly assembly)
         {
-            using (new NUnitEngineResolver())
+            using (new EngineResolver())
             {
                 return run(testListener, assembly, null);
             }
@@ -21,7 +21,7 @@
 
         public TDF.TestRunState RunMember(TDF.ITestListener testListener, Assembly assembly, MemberInfo member)
         {
-            using (new NUnitEngineResolver())
+            using (new EngineResolver())
             {
                 string testPath = Utilities.GetTestPath(member);
                 return run(testListener, assembly, testPath);
@@ -30,7 +30,7 @@
 
         public TDF.TestRunState RunNamespace(TDF.ITestListener testListener, Assembly assembly, string ns)
         {
-            using (new NUnitEngineResolver())
+            using (new EngineResolver())
             {
                 return run(testListener, assembly, ns);
             }

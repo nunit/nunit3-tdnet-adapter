@@ -16,7 +16,7 @@
         [TestInitialize]
         public void CreateTestRunner()
         {
-            testRunner = new NUnitEngineTestRunner();
+            testRunner = new EngineTestRunner();
         }
 
         public TestContext TestContext

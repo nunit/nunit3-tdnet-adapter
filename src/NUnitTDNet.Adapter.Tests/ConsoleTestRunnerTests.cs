@@ -8,12 +8,12 @@
     using System.Threading;
 
     [TestClass]
-    public class NUnitConsoleTestRunnerTests
+    public class ConsoleTestRunnerTests
     {
         [TestMethod]
         public void RunMember_SomeTestsPass_PassedCount1()
         {
-            var testRunner = new NUnitConsoleTestRunner();
+            var testRunner = new ConsoleTestRunner();
             var testListener = new FakeTestListener();
             var testMethod = new ThreadStart(SomeTests.Pass).Method;
             var testAssembly = testMethod.DeclaringType.Assembly;
@@ -26,7 +26,7 @@
         [TestMethod]
         public void RunMember_SomeTestCasesPassAndFail_PassAndFail()
         {
-            var testRunner = new NUnitConsoleTestRunner();
+            var testRunner = new ConsoleTestRunner();
             var testListener = new FakeTestListener();
             var testMethod = new ThreadStart(SomeTests.Fail).Method;
             var testAssembly = testMethod.DeclaringType.Assembly;

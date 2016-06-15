@@ -4,11 +4,11 @@
     using System.IO;
     using System.Reflection;
 
-    class NUnitEngineResolver : IDisposable
+    class EngineResolver : IDisposable
     {
         string engineDir;
 
-        public NUnitEngineResolver()
+        public EngineResolver()
         {
             engineDir = findEngineDirectory();
             if(engineDir == null)
