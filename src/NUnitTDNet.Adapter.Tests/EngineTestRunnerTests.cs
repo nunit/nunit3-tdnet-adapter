@@ -9,14 +9,14 @@
     using TestDriven.Framework;
 
     [TestClass]
-    public class NUnitEngineTestRunnerTests
+    public class EngineTestRunnerTests
     {
         ITestRunner testRunner;
 
         [TestInitialize]
         public void CreateTestRunner()
         {
-            testRunner = new NUnitEngineTestRunner();
+            testRunner = new EngineTestRunner();
         }
 
         [TestMethod]

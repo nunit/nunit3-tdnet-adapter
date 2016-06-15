@@ -51,9 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NUnitConsoleTestRunner.cs" />
-    <Compile Include="NUnitEngineResolver.cs" />
-    <Compile Include="NUnitEngineTestRunner.cs" />
+    <Compile Include="ConsoleTestRunner.cs" />
+    <Compile Include="EngineResolver.cs" />
+    <Compile Include="EngineTestRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
