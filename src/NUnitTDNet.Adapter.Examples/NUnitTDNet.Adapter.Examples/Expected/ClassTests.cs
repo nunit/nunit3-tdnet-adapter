@@ -3,7 +3,7 @@
     using NUnit.Framework;
     using TestDriven.Framework;
 
-    [Expect(TestRunState.Failure, FailedCount = 1)]
+    [ExpectTestRun(TestRunState.Failure, FailedCount = 1)]
     public class FailClass
     {
         [Test]
@@ -13,7 +13,7 @@
         }
     }
 
-    [Expect(TestRunState.Success, PassedCount = 1)]
+    [ExpectTestRun(TestRunState.Success, PassedCount = 1)]
     public class PassClass
     {
         [Test]
@@ -22,7 +22,7 @@
         }
     }
 
-    [Expect(TestRunState.Failure, PassedCount = 1, FailedCount = 1)]
+    [ExpectTestRun(TestRunState.Failure, PassedCount = 1, FailedCount = 1)]
     public class PassFailClass
     {
         [Test]
@@ -37,7 +37,7 @@
         }
     }
 
-    [Expect(TestRunState.Success, IgnoredCount = 1)]
+    [ExpectTestRun(TestRunState.Success, IgnoredCount = 1)]
     public class AssertIgnoreClass
     {
         [Test]
@@ -47,7 +47,7 @@
         }
     }
 
-    [Expect(TestRunState.Success, IgnoredCount = 1)]
+    [ExpectTestRun(TestRunState.Success, IgnoredCount = 1)]
     public class AttributeIgnoreClass
     {
         [Test, Ignore("Ignore me!")]

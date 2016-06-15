@@ -4,13 +4,13 @@
     using TestDriven.Framework;
 
     // Should we attempt to run nested classes?
-    [Expect(TestRunState.NoTests)]
+    [ExpectTestRun(TestRunState.NoTests)]
     public class NestedClassTests
     {
-        [Expect(TestRunState.Success, PassedCount = 1)]
+        [ExpectTestRun(TestRunState.Success, PassedCount = 1)]
         public class NestedClass
         {
-            [Test, Expect(TestRunState.Success, PassedCount = 1)]
+            [Test, ExpectTestRun(TestRunState.Success, PassedCount = 1)]
             public void Pass()
             {
             }

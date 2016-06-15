@@ -6,6 +6,8 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using TestDriven.Framework;
     using Fakes;
+    using Examples.Expected;
+
     [TestClass]
     public class ExpectTests
     {
@@ -32,32 +34,85 @@
             var testAssembly = ExpectAttributeExplorer.TestAssembly;
             var member = ExpectAttributeExplorer.GetMember(name);
             var expectAttribute = ExpectAttributeExplorer.GetExpectAttribute(name);
-            var testListener = new FakeTestListener();
 
+            var testListener = new FakeTestListener();
             var testRunState = testRunner.RunMember(testListener, testAssembly, member);
 
-            if (expectAttribute.TestRunState != null)
+            if (expectAttribute is ExpectTestRunAttribute)
             {
-                string message = string.Format("Checking 'TestRunState' for " + name);
-                Assert.AreEqual(expectAttribute.TestRunState, testRunState, message);
+                // Checks for all tests.
+                var expectTestRunAttribute = (ExpectTestRunAttribute)expectAttribute;
+                {
+                    string message = string.Format("Checking 'TestRunState' for: " + name);
+                    Assert.AreEqual(expectTestRunAttribute.TestRunState, testRunState, message);
+                }
+
+                if (expectTestRunAttribute.PassedCount >= 0)
+                {
+                    string message = string.Format("Checking 'PassedCount' for: " + name);
+                    Assert.AreEqual(expectTestRunAttribute.PassedCount, testListener.PassedCount, message);
+                }
+
+                if (expectTestRunAttribute.IgnoredCount >= 0)
+                {
+                    string message = string.Format("Checking 'IgnoredCount' for: " + name);
+                    Assert.AreEqual(expectTestRunAttribute.IgnoredCount, testListener.IgnoredCount, message);
+                }
+
+                if (expectTestRunAttribute.FailedCount >= 0)
+                {
+                    string message = string.Format("Checking 'FailedCount' for: " + name);
+                    Assert.AreEqual(expectTestRunAttribute.FailedCount, testListener.FailedCount, message);
+                }
             }
 
-            if (expectAttribute.PassedCount >= 0)
+            if (expectAttribute is ExpectTestAttribute)
             {
-                string message = string.Format("Checking 'PassedCount' for " + name);
-                Assert.AreEqual(expectAttribute.PassedCount, testListener.PassedCount, message);
-            }
+                // Checks for specific test.
+                var expectTestAttribute = (ExpectTestAttribute)expectAttribute;
 
-            if (expectAttribute.IgnoredCount >= 0)
-            {
-                string message = string.Format("Checking 'IgnoredCount' for " + name);
-                Assert.AreEqual(expectAttribute.IgnoredCount, testListener.IgnoredCount, message);
-            }
+                string expectName = expectTestAttribute.Name;
+                var testResult = testListener.GetTestResult(expectName);
+                if (testResult == null)
+                {
+                    foreach (string testName in testListener.GetTestNames())
+                    {
+                        Console.WriteLine("found: " + testName);
+                    }
 
-            if (expectAttribute.FailedCount >= 0)
-            {
-                string message = string.Format("Checking 'FailedCount' for " + name);
-                Assert.AreEqual(expectAttribute.FailedCount, testListener.FailedCount, message);
+                    string message = string.Format("Looking up test with name: " + expectName);
+                    Assert.IsNotNull(testResult, message);
+                }
+
+                if (expectTestAttribute.Message != null)
+                {
+                    string message = string.Format("Checking 'Message' for test: " + expectName);
+                    Assert.AreEqual(expectTestAttribute.Message, testResult.Message, message);
+                }
+
+                if (expectTestAttribute.StackTraceStartsWith != null)
+                {
+                    string message = string.Format("Checking 'StackTrace' for test: " + expectName);
+                    StringAssert.StartsWith(testResult.StackTrace, expectTestAttribute.StackTraceStartsWith, message);
+                }
+
+                if (expectTestAttribute.StackTraceEndsWith != null)
+                {
+                    string message = string.Format("Checking 'StackTrace' for test: " + expectName);
+                    StringAssert.EndsWith(testResult.StackTrace, expectTestAttribute.StackTraceEndsWith, message);
+                }
+
+                if (expectTestAttribute.TotalTests >= 0)
+                {
+                    string message = string.Format("Checking 'TotalTests' for test: " + expectName);
+                    Assert.AreEqual(expectTestAttribute.TotalTests, testResult.TotalTests, message);
+                }
+
+                if (expectTestAttribute.State != null)
+                {
+                    string message = string.Format("Checking 'State' for test: " + expectName);
+                    Assert.AreEqual(expectTestAttribute.State, testResult.State, message);
+                }
             }
         }
     }
