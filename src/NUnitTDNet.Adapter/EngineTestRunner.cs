@@ -12,6 +12,10 @@
     using System.Xml;
     using TDF = TestDriven.Framework;
 
+    /// <summary>
+    /// Execute tests using a private copy of the 'nunit.engine' assembly. Tests will
+    /// be executed in a process and app domain created by TestDriven.Net.
+    /// </summary>
     public class EngineTestRunner : TDF.ITestRunner
     {
         public TDF.TestRunState RunAssembly(TDF.ITestListener testListener, Assembly assembly)

@@ -6,6 +6,11 @@
     using System.Reflection;
     using TestDriven.Framework;
 
+    /// <summary>
+    /// This is a sample test runner that executes tests using the NUnit console application.
+    /// It was implemented as a convenient way to compare tests run with the NUnit console
+    /// to those run with TestDriven.Net. It isn't meant for production use.
+    /// </summary>
     public class ConsoleTestRunner : ITestRunner
     {
         public TestRunState RunAssembly(ITestListener testListener, Assembly assembly)
