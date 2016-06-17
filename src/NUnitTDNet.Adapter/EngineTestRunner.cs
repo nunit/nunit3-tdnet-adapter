@@ -1,10 +1,13 @@
 ﻿namespace NUnitTDNet.Adapter
 {
-    using NUnit.Common;
+    // We use an alias so that we don't accidentally make
+    // references to engine internals, except for creating
+    // the engine object in the CreateTestEngine method.
+    extern alias ENG;
+    using TestEngineClass = ENG::NUnit.Engine.TestEngine;
+
     using NUnit.Engine;
     using System;
-    using System.Diagnostics;
-    using System.IO;
     using System.Reflection;
     using System.Xml;
     using TDF = TestDriven.Framework;
@@ -13,41 +16,29 @@
     {
         public TDF.TestRunState RunAssembly(TDF.ITestListener testListener, Assembly assembly)
         {
-            using (new EngineResolver())
-            {
-                return run(testListener, assembly, null);
-            }
+            return run(testListener, assembly, null);
         }
 
         public TDF.TestRunState RunMember(TDF.ITestListener testListener, Assembly assembly, MemberInfo member)
         {
-            using (new EngineResolver())
-            {
-                string testPath = Utilities.GetTestPath(member);
-                return run(testListener, assembly, testPath);
-            }
+            string testPath = Utilities.GetTestPath(member);
+            return run(testListener, assembly, testPath);
         }
 
         public TDF.TestRunState RunNamespace(TDF.ITestListener testListener, Assembly assembly, string ns)
         {
-            using (new EngineResolver())
-            {
-                return run(testListener, assembly, ns);
-            }
+            return run(testListener, assembly, ns);
         }
 
         TDF.TestRunState run(TDF.ITestListener testListener, Assembly testAssembly, string testPath)
         {
-            // Can't find find TestEngine when not on AppDomain.BaseDirectory or registry.
-            //using (ITestEngine engine = TestEngineActivator.CreateInstance(false))
-
-            using (ITestEngine engine = new TestEngine())
+            using (var engine = new TestEngineClass())
             {
                 string assemblyFile = new Uri(testAssembly.EscapedCodeBase).LocalPath;
-
                 TestPackage package = new TestPackage(assemblyFile);
-                package.AddSetting(PackageSettings.ProcessModel, "InProcess");
-                package.AddSetting(PackageSettings.DomainUsage, "None");
+
+                package.AddSetting("ProcessModel", "InProcess");
+                package.AddSetting("DomainUsage", "None");
 
                 ITestRunner runner = engine.GetRunner(package);
 
@@ -57,7 +48,7 @@
                 var filter = builder.GetFilter();
 
                 var totalTests = runner.CountTestCases(filter);
-                if(totalTests == 0)
+                if (totalTests == 0)
                 {
                     return TDF.TestRunState.NoTests;
                 }
@@ -145,6 +136,7 @@
                             testResult.State = TDF.TestState.Failed;
                             break;
                     }
+
                     testListener.TestFinished(testResult);
                 }
             }
