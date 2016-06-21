@@ -1,5 +1,5 @@
-﻿/.vs/
-/packages/
+﻿/build
+**/packages/
 **/bin/Debug/
 **/obj/Debug/
 *.suo

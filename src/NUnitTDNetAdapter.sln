@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTDNet.Adapter", "src\NUnitTDNet.Adapter\NUnitTDNet.Adapter.csproj", "{2081557B-25C1-4911-A9AC-7012452C6CDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTDNet.Adapter", "NUnitTDNet.Adapter\NUnitTDNet.Adapter.csproj", "{2081557B-25C1-4911-A9AC-7012452C6CDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTDNet.Adapter.Tests", "src\NUnitTDNet.Adapter.Tests\NUnitTDNet.Adapter.Tests.csproj", "{61745281-8299-4E59-AD60-BB75D8002861}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTDNet.Adapter.Tests", "NUnitTDNet.Adapter.Tests\NUnitTDNet.Adapter.Tests.csproj", "{61745281-8299-4E59-AD60-BB75D8002861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTDNet.Adapter.Examples", "src\NUnitTDNet.Adapter.Examples\NUnitTDNet.Adapter.Examples\NUnitTDNet.Adapter.Examples.csproj", "{43CF5827-7A7A-4A53-B5DD-FADC41900E53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTDNet.Adapter.Examples", "NUnitTDNet.Adapter.Examples\NUnitTDNet.Adapter.Examples.csproj", "{43CF5827-7A7A-4A53-B5DD-FADC41900E53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
