@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>NUnitTDNet</id>
-    <title>NUnit 3.4 framework for use with TestDriven.Net</title>
+    <title>NUnit $version$ framework for use with TestDriven.Net</title>
     <version>$version$</version>
     <authors>Jamie Cansdale, Charlie Poole</authors>
     <owners>Jamie Cansdale</owners>
@@ -10,9 +10,9 @@
     <projectUrl>http://testdriven.net</projectUrl>
     <iconUrl>http://nunit.org/nuget/nunitv3_32x32.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>NUnit 3.4 framework and test runner adapter for TestDriven.Net</summary>
-    <description>This package includes the NUnit 3.4 framework assembly, which is referenced by your tests. It also includes a test runner adapter that is used by TestDriven.Net when executing tests. The adapter is named 'nunit.framework.dll.tdnet' and must live in the same directory as the referenced 'nunit.framework.dll'.</description>
-    <releaseNotes>Update for NUnit 3.4</releaseNotes>
+    <summary>NUnit $version$ framework and test runner adapter for TestDriven.Net</summary>
+    <description>This package includes the NUnit $version$ framework assembly, which is referenced by your tests. It also includes a test runner adapter that is used by TestDriven.Net when executing tests. The adapter is named 'nunit.framework.dll.tdnet' and must live in the same directory as the referenced 'nunit.framework.dll'.</description>
+    <releaseNotes>Update for NUnit $version$</releaseNotes>
     <language>en-US</language>
     <tags>nunit testdriven tdnet test testing tdd framework addin</tags>
     <copyright>Copyright (c) 2016 Jamie Cansdale, Charlie Poole</copyright>
@@ -21,15 +21,17 @@
     </references>
   </metadata>
   <files>
-      <file src="build\TestDriven.Framework.dll" target="lib\dotnet" />
-      <file src="build\NUnitTDNet.Adapter.dll" target="lib\dotnet" />
-      <file src="build\nunit.framework.dll.tdnet" target="lib\dotnet" />
-  
-      <file src="build\nunit.framework.dll" target="lib\dotnet" />
-      <file src="build\nunit.framework.xml" target="lib\dotnet" />
-
-      <file src="build\nunit.engine.api.dll" target="lib\dotnet" />
-      <file src="build\nunit.engine.dll" target="lib\dotnet" />
-      <file src="build\Mono.Cecil.dll" target="lib\dotnet" />
+    <file src="$OutputPath$\TestDriven.Framework.dll" target="tools" />
+    <file src="$OutputPath$\NUnitTDNet.Adapter.dll" target="tools" />
+    <file src="$PackagesPath$\NUnit.Engine.$version$\lib\*" target="tools" />
+    <file src="$OutputPath$\nunit.framework.dll.tdnet" target="lib\net20" />
+    <file src="$PackagesPath$\NUnit.$version$\lib\net20\*" target="lib\net20" />
+    <file src="$OutputPath$\nunit.framework.dll.tdnet" target="lib\net35" />
+    <file src="$PackagesPath$\NUnit.$version$\lib\net35\*" target="lib\net35" />
+    <file src="$OutputPath$\nunit.framework.dll.tdnet" target="lib\net40" />
+    <file src="$PackagesPath$\NUnit.$version$\lib\net40\*" target="lib\net40" />
+    <file src="$OutputPath$\nunit.framework.dll.tdnet" target="lib\net45" />
+    <file src="$PackagesPath$\NUnit.$version$\lib\net45\*" target="lib\net45" />
+    <file src="$PackagesPath$\NUnit.$version$\*.txt" />
   </files>
 </package>
