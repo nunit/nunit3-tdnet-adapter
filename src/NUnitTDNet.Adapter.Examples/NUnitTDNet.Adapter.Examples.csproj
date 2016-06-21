@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=3.2.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\NUnit.3.2.1\lib\net45\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\NUnit.3.2.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -45,7 +45,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="TestDriven.Framework">
-      <HintPath>..\..\..\lib\TestDriven.Framework.dll</HintPath>
+      <HintPath>..\..\lib\TestDriven.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +72,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NUnitTDNet.Adapter\NUnitTDNet.Adapter.csproj">
+    <ProjectReference Include="..\NUnitTDNet.Adapter\NUnitTDNet.Adapter.csproj">
       <Project>{2081557b-25c1-4911-a9ac-7012452c6cdf}</Project>
       <Name>NUnitTDNet.Adapter</Name>
     </ProjectReference>

@@ -69,7 +69,7 @@
     <Compile Include="Expect\ExpectAttributeExplorerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NUnitTDNet.Adapter.Examples\NUnitTDNet.Adapter.Examples\NUnitTDNet.Adapter.Examples.csproj">
+    <ProjectReference Include="..\NUnitTDNet.Adapter.Examples\NUnitTDNet.Adapter.Examples.csproj">
       <Project>{43cf5827-7a7a-4a53-b5dd-fadc41900e53}</Project>
       <Name>NUnitTDNet.Adapter.Examples</Name>
     </ProjectReference>

@@ -1,0 +1,24 @@
+<Project DefaultTargets="Clean;Build;NuGet" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<SolutionFile>src\NUnitTDNetAdapter.sln</SolutionFile>
+		<OutputPath>$(MSBuildProjectDirectory)\build\</OutputPath>
+		<Properties>OutputPath=$(OutputPath)</Properties>
+    <NugetVersion>3.4.0.0</NugetVersion>
+    <NUSpecFile>nuget\nunit3-tdnet-adapter.nuspec</NUSpecFile>
+	</PropertyGroup>
+	
+	<Target Name="Clean">
+		<RemoveDir Directories="$(OutputPath)" />
+		<MSBuild Projects="$(SolutionFile)" Targets="Clean" Properties="$(Properties)" />
+	</Target>
+	
+	<Target Name="Build">
+		<MSBuild Projects="$(SolutionFile)" Properties="$(Properties)" />
+	</Target>
+
+  <Target Name="Package" DependsOnTargets="NuGet" />
+
+  <Target Name="NuGet">
+    <Exec WorkingDirectory="." Command="nuget pack $(NUSpecFile) -BasePath . -OutputDirectory $(OutputPath) -Properties version=$(NugetVersion)" />
+  </Target>
+</Project>
