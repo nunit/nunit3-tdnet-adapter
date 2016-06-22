@@ -80,5 +80,106 @@
             Assert.AreEqual(1, testListener.PassedCount, "Check 1 passed");
             Assert.AreEqual(1, testListener.FailedCount, "Check 1 failed");
         }
+
+        [TestMethod]
+        public void RunAssembly_WithNoTests_NoTests()
+        {
+            var testListener = new FakeTestListener();
+            var testFile = "no-tests.dll";
+            var assemblyReferences = new[] { "nunit.framework.dll" };
+            var source = "class NoTests {}";
+            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
+            var testAssembly = Assembly.LoadFrom(testFile);
+
+            var state = testRunner.RunAssembly(testListener, testAssembly);
+
+            Assert.AreEqual(TestRunState.NoTests, state, "check no tests were found");
+        }
+
+        [TestMethod]
+        public void RunAssembly_WithOneTest_RanOneTest()
+        {
+            var testListener = new FakeTestListener();
+            var testFile = "one-test.dll";
+            var assemblyReferences = new[] { "nunit.framework.dll" };
+            var expectedName = "TestClass.TestMethod";
+            var source = @"
+using NUnit.Framework;
+public class TestClass
+{
+    [Test]
+    public void TestMethod() {}
+}";
+            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
+            var testAssembly = Assembly.LoadFrom(testFile);
+
+            var state = testRunner.RunAssembly(testListener, testAssembly);
+
+            var testNames = testListener.GetTestNames();
+            Assert.AreEqual(1, testNames.Count, "Check 1 ran.");
+            Assert.IsTrue(testNames.Contains(expectedName), "Check for test name: " + expectedName);
+            Assert.AreEqual(TestRunState.Success, state, "Check for success.");
+        }
+
+        [TestMethod]
+        public void RunNamespace_EmptyNamespace_RanOneTest()
+        {
+            var testListener = new FakeTestListener();
+            var testFile = "empty-namespace.dll";
+            var assemblyReferences = new[] { "nunit.framework.dll" };
+            var expectedName = "TestClass.TestMethod";
+            var source = @"
+using NUnit.Framework;
+public class TestClass
+{
+    [Test]
+    public void TestMethod() {}
+}";
+            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
+            var testAssembly = Assembly.LoadFrom(testFile);
+
+            var state = testRunner.RunNamespace(testListener, testAssembly, "");
+
+            var testNames = testListener.GetTestNames();
+            Assert.AreEqual(1, testNames.Count, "Check 1 ran.");
+            Assert.IsTrue(testNames.Contains(expectedName), "Check for test name: " + expectedName);
+            Assert.AreEqual(TestRunState.Success, state, "Check for success.");
+        }
+
+        [TestMethod]
+        public void RunNamespace_TargetNamespace_RanOneTest()
+        {
+            var testListener = new FakeTestListener();
+            var testFile = "target-namespace.dll";
+            var assemblyReferences = new[] { "nunit.framework.dll" };
+            var ns = "TargetNamespace";
+            var expectedName = ns + ".TestClass.TestMethod";
+            var source = @"
+using NUnit.Framework;
+namespace {ns}
+{
+    public class TestClass
+    {
+        [Test]
+        public void TestMethod() { }
+    }
+}
+
+public class OutsideNamespace
+{
+    [Test]
+    public void Test() { }
+}
+".Replace("{ns}", ns);
+            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
+            var testAssembly = Assembly.LoadFrom(testFile);
+
+            var state = testRunner.RunNamespace(testListener, testAssembly, ns);
+
+            var testNames = testListener.GetTestNames();
+            Assert.AreEqual(1, testNames.Count, "Check 1 ran.");
+            Assert.IsTrue(testNames.Contains(expectedName), "Check for test name: " + expectedName);
+            Assert.AreEqual(TestRunState.Success, state, "Check for success.");
+        }
     }
 }
