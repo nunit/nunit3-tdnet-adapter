@@ -3,7 +3,7 @@
   <metadata>
     <id>NUnitTDNet</id>
     <title>NUnit $version$ framework for use with TestDriven.Net</title>
-    <version>$version$</version>
+    <version>$version$-beta</version>
     <authors>Jamie Cansdale, Charlie Poole</authors>
     <owners>Jamie Cansdale</owners>
     <licenseUrl>http://nunit.org/nuget/nunit3-license.txt</licenseUrl>
