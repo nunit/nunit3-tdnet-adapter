@@ -1,11 +1,16 @@
 <Project DefaultTargets="Clean;Build;NuGet" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<SolutionFile>src\NUnitTDNetAdapter.sln</SolutionFile>
-		<OutputPath>$(MSBuildProjectDirectory)\build</OutputPath>
-		<Properties>OutputPath=$(OutputPath)</Properties>
-    <Version>3.2.1</Version>
+    <!-- Use Visual Studio Team Services build number if available (defaults to 0) -->
+    <BuildNumber>0</BuildNumber>
+    <BuildNumber Condition="$(BUILD_BUILDNUMBER) != ''">$(BUILD_BUILDNUMBER)</BuildNumber>
+	</PropertyGroup>
+	<PropertyGroup>
     <NUSpecFile>nuget\nunit3-tdnet-adapter.nuspec</NUSpecFile>
+		<SolutionFile>src\NUnitTDNetAdapter.sln</SolutionFile>
+    <Version>3.2.1</Version>
     <PackagesPath>src\packages</PackagesPath>
+		<OutputPath>$(MSBuildProjectDirectory)\build</OutputPath>
+		<Properties>version=$(Version);PackagesPath=$(PackagesPath);OutputPath=$(OutputPath);BuildNumber=$(BuildNumber)</Properties>
 	</PropertyGroup>
 	
 	<Target Name="Clean">
@@ -20,6 +25,6 @@
   <Target Name="Package" DependsOnTargets="NuGet" />
 
   <Target Name="NuGet">
-    <Exec WorkingDirectory="." Command="nuget pack $(NUSpecFile) -BasePath . -OutputDirectory $(OutputPath) -Properties version=$(Version);PackagesPath=$(PackagesPath);OutputPath=$(OutputPath)" />
+    <Exec WorkingDirectory="." Command="nuget pack $(NUSpecFile) -BasePath . -OutputDirectory $(OutputPath) -Properties $(Properties)" />
   </Target>
 </Project>
