@@ -20,7 +20,8 @@
     {
         public TDF.TestRunState RunAssembly(TDF.ITestListener testListener, Assembly assembly)
         {
-            return run(testListener, assembly, null);
+            var testPath = new Uri(assembly.EscapedCodeBase).LocalPath;
+            return run(testListener, assembly, testPath);
         }
 
         public TDF.TestRunState RunMember(TDF.ITestListener testListener, Assembly assembly, MemberInfo member)
@@ -31,7 +32,13 @@
 
         public TDF.TestRunState RunNamespace(TDF.ITestListener testListener, Assembly assembly, string ns)
         {
-            return run(testListener, assembly, ns);
+            var testPath = ns;
+            if(string.IsNullOrEmpty(ns))
+            {
+                testPath = new Uri(assembly.EscapedCodeBase).LocalPath;
+            }
+
+            return run(testListener, assembly, testPath);
         }
 
         TDF.TestRunState run(TDF.ITestListener testListener, Assembly testAssembly, string testPath)
@@ -49,6 +56,7 @@
                 var filterService = engine.Services.GetService<ITestFilterService>();
                 ITestFilterBuilder builder = filterService.GetTestFilterBuilder();
                 builder.AddTest(testPath);
+
                 var filter = builder.GetFilter();
 
                 var totalTests = runner.CountTestCases(filter);
