@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CompilerUtilities.cs" />
     <Compile Include="Expect\ExpectAttributeExplorer.cs" />
     <Compile Include="Expect\ExpectTests.cs" />
     <Compile Include="Fakes\FakeTestListener.cs" />
