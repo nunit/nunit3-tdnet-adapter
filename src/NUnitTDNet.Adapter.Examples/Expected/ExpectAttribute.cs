@@ -5,6 +5,10 @@
 
     public class ExpectAttribute : Attribute
     {
+        public bool Namespace
+        {
+            get; set;
+        }
     }
 
     public class ExpectTestRunAttribute : ExpectAttribute

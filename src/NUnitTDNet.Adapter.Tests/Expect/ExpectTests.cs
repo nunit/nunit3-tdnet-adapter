@@ -7,6 +7,7 @@
     using TestDriven.Framework;
     using Fakes;
     using Examples.Expected;
+    using System.Reflection;
 
     [TestClass]
     public class ExpectTests
@@ -34,9 +35,18 @@
             var testAssembly = ExpectAttributeExplorer.TestAssembly;
             var member = ExpectAttributeExplorer.GetMember(name);
             var expectAttribute = ExpectAttributeExplorer.GetExpectAttribute(name);
-
             var testListener = new FakeTestListener();
-            var testRunState = testRunner.RunMember(testListener, testAssembly, member);
+            TestRunState testRunState;
+
+            if (expectAttribute.Namespace)
+            {
+                var ns = getNamespace(member);
+                testRunState = testRunner.RunNamespace(testListener, testAssembly, ns);
+            }
+            else
+            {
+                testRunState = testRunner.RunMember(testListener, testAssembly, member);
+            }
 
             if (expectAttribute is ExpectTestRunAttribute)
             {
@@ -143,6 +153,17 @@
                     }
                 }
             }
+        }
+
+        private string getNamespace(MemberInfo member)
+        {
+            var type = member as Type;
+            if (type == null)
+            {
+                Assert.Fail("Namespace must be defined on a Type, not: " + member);
+            }
+
+            return type.Namespace;
         }
     }
 }
