@@ -1,4 +1,4 @@
-<Project DefaultTargets="Clean;Build;NuGet" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Clean;Build;NuGet;WiX" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
     <!-- Use Visual Studio Team Services build number if available (defaults to 0) -->
     <BuildNumber>0</BuildNumber>
@@ -8,11 +8,15 @@
     <NUSpecFile>nuget\nunit3-tdnet-adapter.nuspec</NUSpecFile>
 		<SolutionFile>src\NUnitTDNetAdapter.sln</SolutionFile>
     <Version>3.2.1</Version>
-    <PackagesPath>src\packages</PackagesPath>
+    <PackagesPath>$(MSBuildProjectDirectory)\src\packages</PackagesPath>
 		<OutputPath>$(MSBuildProjectDirectory)\build</OutputPath>
 		<Properties>version=$(Version);PackagesPath=$(PackagesPath);OutputPath=$(OutputPath);BuildNumber=$(BuildNumber)</Properties>
-	</PropertyGroup>
+	</PropertyGroup>	
 	
+	<ItemGroup>
+		<Wxs Include="package\nunitaddin.wxs" />
+	</ItemGroup>
+		
 	<Target Name="Clean">
 		<RemoveDir Directories="$(OutputPath)" />
 		<MSBuild Projects="$(SolutionFile)" Targets="Clean" Properties="$(Properties)" />
@@ -22,9 +26,11 @@
 		<MSBuild Projects="$(SolutionFile)" Properties="$(Properties)" />
 	</Target>
 
-  <Target Name="Package" DependsOnTargets="NuGet" />
-
   <Target Name="NuGet">
     <Exec WorkingDirectory="." Command="nuget pack $(NUSpecFile) -BasePath . -OutputDirectory $(OutputPath) -Properties $(Properties)" />
   </Target>
+  
+  <Target Name="WiX">
+		<Exec Command='candle "@(Wxs)" -out "$(OutputPath)\%(Wxs.Filename).wixobj" -dVersion=$(Version) -dPackagesPath=$(PackagesPath) -dOutputPath=$(OutputPath) -dBuildNumber=$(BuildNumber)' />
+	</Target>
 </Project>
