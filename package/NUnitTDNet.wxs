@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment>
+    <Feature Id="F__NUnitTDNet" Title="NUnit 3.x" Level="1">
+      <ComponentRef Id="C__NUnitTDNet_lib_net20_nunit_framework" />
+      <ComponentRef Id="C__NUnitTDNet_lib_net35_nunit_framework" />
+      <ComponentRef Id="C__NUnitTDNet_lib_net40_nunit_framework" />
+      <ComponentRef Id="C__NUnitTDNet_lib_net45_nunit_framework" />
+      <ComponentRef Id="C__NUnitTDNet_tools" />
+    </Feature>
+
+    <DirectoryRef Id="INSTALLDIR">
+      <Directory Id="D__NUnitTDNet" Name="NUnit">
+        <Directory Id="D__NUnitTDNet_version" Name="$(var.Version)">
+
+          <Directory Id="D__NUnitTDNet_lib" Name="lib">
+            <Directory Id="D__NUnitTDNet_lib_net20" Name="net20">
+              <Component Id="C__NUnitTDNet_lib_net20_nunit_framework" DiskId="1" Guid="1265a68a-37f8-4cee-90ba-c7c34268098f">
+                <File Id="C__NUnitTDNet_lib_net20_nunit_framework_tdnet" Name="NUF.TDN" LongName="nunit.framework.dll.tdnet"
+                      src="$(var.OutputPath)\nunit.framework.dll.tdnet" />
+                <File Id="C__NUnitTDNet_lib_net20_nunit_framework_dll" Name="NUF.DLL" LongName="nunit.framework.dll"
+                      src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net20\nunit.framework.dll" />
+                <File Id="C__NUnitTDNet_lib_net20_nunit_framework_xml" Name="NUF.XML" LongName="nunit.framework.xml"
+                      src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net20\nunit.framework.xml" />
+              </Component>
+            </Directory>
+            
+            <Directory Id="D__NUnitTDNet_lib_net35" Name="net35">
+              <Component Id="C__NUnitTDNet_lib_net35_nunit_framework" DiskId="1" Guid="77172e0c-b975-4575-805e-4049c29a5b3f">
+                <File Id="C__NUnitTDNet_lib_net35_nunit_framework_tdnet" Name="NUF.TDN" LongName="nunit.framework.dll.tdnet"
+                      src="$(var.OutputPath)\nunit.framework.dll.tdnet" />
+                <File Id="C__NUnitTDNet_lib_net35_nunit_framework_dll" Name="NUF.DLL" LongName="nunit.framework.dll"
+                      src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net35\nunit.framework.dll" />
+                <File Id="C__NUnitTDNet_lib_net35_nunit_framework_xml" Name="NUF.XML" LongName="nunit.framework.xml"
+                      src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net35\nunit.framework.xml" />
+              </Component>
+            </Directory>
+            
+            <Directory Id="D__NUnitTDNet_lib_net40" Name="net40">
+              <Component Id="C__NUnitTDNet_lib_net40_nunit_framework" DiskId="1" Guid="46809775-9749-4f58-8118-78e2fd6166a8">
+                <File Id="C__NUnitTDNet_lib_net40_nunit_framework_tdnet" Name="NUF.TDN" LongName="nunit.framework.dll.tdnet"
+                      src="$(var.OutputPath)\nunit.framework.dll.tdnet" />
+                <File Id="C__NUnitTDNet_lib_net40_nunit_framework_dll" Name="NUF.DLL" LongName="nunit.framework.dll"
+                      src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net40\nunit.framework.dll" />
+                <File Id="C__NUnitTDNet_lib_net40_nunit_framework_xml" Name="NUF.XML" LongName="nunit.framework.xml"
+                      src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net40\nunit.framework.xml" />
+              </Component>
+            </Directory>
+            
+            <Directory Id="D__NUnitTDNet_lib_net45" Name="net45">
+              <Component Id="C__NUnitTDNet_lib_net45_nunit_framework" DiskId="1" Guid="0c9c4bf8-483b-4b0c-b664-7fb6f66eab0d">
+                <File Id="C__NUnitTDNet_lib_net45_nunit_framework_tdnet" Name="NUF.TDN" LongName="nunit.framework.dll.tdnet"
+                      src="$(var.OutputPath)\nunit.framework.dll.tdnet" />
+                <File Id="C__NUnitTDNet_lib_net45_nunit_framework_dll" Name="NUF.DLL" LongName="nunit.framework.dll"
+                      src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net45\nunit.framework.dll" />
+                <File Id="C__NUnitTDNet_lib_net45_nunit_framework_xml" Name="NUF.XML" LongName="nunit.framework.xml"
+                      src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net45\nunit.framework.xml" />
+              </Component>
+            </Directory>
+            
+          </Directory>
+          
+          <Directory Id="D__NUnitTDNet_tools" Name="tools">
+              <Component Id="C__NUnitTDNet_tools" DiskId="1" Guid="1fee213b-4ce0-4c4b-8e87-e5d1436f885e">
+                <File Id="C__NUnitTDNet_tools_TestDriven_nunit_framework_dll" Name="TDF.DLL" LongName="TestDriven.Framework.dll"
+                      src="$(var.OutputPath)\TestDriven.Framework.dll" />
+                <File Id="C__NUnitTDNet_tools_NUnitTDNet_Adapter_dll" Name="NTDNA.DLL" LongName="NUnitTDNet.Adapter.dll"
+                      src="$(var.OutputPath)\NUnitTDNet.Adapter.dll" />
+                <File Id="C__NUnitTDNet_tools_nunit_engine_api_dll" Name="NUEA.DLL" LongName="nunit.engine.api.dll"
+                      src="$(var.PackagesPath)\NUnit.Engine.$(var.Version)\lib\nunit.engine.api.dll" />
+                <File Id="C__NUnitTDNet_tools_nunit_engine_dll" Name="NUE.DLL" LongName="nunit.engine.dll"
+                      src="$(var.PackagesPath)\NUnit.Engine.$(var.Version)\lib\nunit.engine.dll" />
+                <File Id="C__NUnitTDNet_tools_Mono_Cecil_dll" Name="MONOCE.DLL" LongName="Mono.Cecil.dll"
+                      src="$(var.PackagesPath)\NUnit.Engine.$(var.Version)\lib\Mono.Cecil.dll" />
+                <File Id="C__NUnitTDNet_tools_nunit_nuget_addins" Name="NUNITNU.ADD" LongName="nunit.nuget.addins"
+                      src="$(var.PackagesPath)\NUnit.Engine.$(var.Version)\lib\nunit.nuget.addins" />
+                      
+                <Registry Id="R__NUnitTDNet_NUnit" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit 3.x" Type="string" Value="5" />
+                <Registry Id="R__NUnitTDNet_AssemblyPath" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit 3.x"
+                        Name="AssemblyPath" Type="string" Value="[D__NUnitTDNet_tools]NUnitTDNet.Adapter.dll" />
+                <Registry Id="R__NUnitTDNet_AssemblyPath_TypeName" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit 3.x"
+                        Name="TypeName" Type="string" Value="NUnitTDNet.Adapter.EngineTestRunner" />
+                <Registry Id="R__NUnitTDNet_TargetFrameworkAssemblyName" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit 3.x"
+                          Name="TargetFrameworkAssemblyName_Reference" Type="string" Value="nunit.framework, Version=3.0.0.0-3.65535.65535.65535" />
+                <Registry Id="R__NUnitTDNet_RuntimeVersion" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit 3.x"
+                        Name="RuntimeVersion" Type="string" Value="v2.0.50727" />
+                <Registry Id="R__NUnitTDNet_ApartmentState" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit 3.x"
+                        Name="ApartmentState" Type="string" Value="MTA" />
+              </Component>
+          </Directory>
+          
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

@@ -5,7 +5,7 @@
     <BuildNumber Condition="$(BUILD_BUILDNUMBER) != ''">$(BUILD_BUILDNUMBER)</BuildNumber>
 	</PropertyGroup>
 	<PropertyGroup>
-    <NUSpecFile>nuget\nunit3-tdnet-adapter.nuspec</NUSpecFile>
+    <NUSpecFile>package\NUnitTDNet.nuspec</NUSpecFile>
 		<SolutionFile>src\NUnitTDNetAdapter.sln</SolutionFile>
     <Version>3.2.1</Version>
     <PackagesPath>$(MSBuildProjectDirectory)\src\packages</PackagesPath>
@@ -14,7 +14,7 @@
 	</PropertyGroup>	
 	
 	<ItemGroup>
-		<Wxs Include="package\nunitaddin.wxs" />
+		<Wxs Include="package\NUnitTDNet.wxs" />
 	</ItemGroup>
 		
 	<Target Name="Clean">
