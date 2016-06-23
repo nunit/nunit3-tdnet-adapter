@@ -1,2 +1,2 @@
 call vars.bat
-msbuild NUnitAddIn.proj
+msbuild Build.proj
