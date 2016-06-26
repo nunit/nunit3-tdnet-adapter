@@ -74,8 +74,6 @@
                       src="$(var.PackagesPath)\NUnit.Engine.$(var.Version)\lib\nunit.engine.dll" />
                 <File Id="C__NUnitTDNet_tools_Mono_Cecil_dll" Name="MONOCE.DLL" LongName="Mono.Cecil.dll"
                       src="$(var.PackagesPath)\NUnit.Engine.$(var.Version)\lib\Mono.Cecil.dll" />
-                <File Id="C__NUnitTDNet_tools_nunit_nuget_addins" Name="NUNITNU.ADD" LongName="nunit.nuget.addins"
-                      src="$(var.PackagesPath)\NUnit.Engine.$(var.Version)\lib\nunit.nuget.addins" />
                       
                 <Registry Id="R__NUnitTDNet_NUnit" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit 3.x" Type="string" Value="5" />
                 <Registry Id="R__NUnitTDNet_AssemblyPath" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit 3.x"
