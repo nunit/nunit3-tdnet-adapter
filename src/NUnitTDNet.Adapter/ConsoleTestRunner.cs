@@ -101,7 +101,6 @@
         {
             var assembly = Assembly.GetExecutingAssembly();
             var dir = new Uri(assembly.EscapedCodeBase).LocalPath;
-            Console.WriteLine("dir: " + dir);
 
             while(true)
             {
