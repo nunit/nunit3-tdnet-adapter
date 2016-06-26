@@ -22,6 +22,8 @@
                       src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net20\nunit.framework.dll" />
                 <File Id="C__NUnitTDNet_lib_net20_nunit_framework_xml" Name="NUF.XML" LongName="nunit.framework.xml"
                       src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net20\nunit.framework.xml" />
+                <File Id="C__NUnitTDNet_lib_net20_NUnit_System_Linq_dll" Name="NUSL.DLL" LongName="NUnit.System.Linq.dll"
+                      src="$(var.PackagesPath)\NUnit.$(var.Version)\lib\net20\NUnit.System.Linq.dll" />
               </Component>
             </Directory>
             
