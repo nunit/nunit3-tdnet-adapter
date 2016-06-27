@@ -65,27 +65,50 @@
                     return TDF.TestRunState.NoTests;
                 }
 
-                var eventHandler = new TestEventListener(testListener, totalTests);
+                var testRunnerName = getTestRunnerName(testAssembly);
+                var eventHandler = new TestEventListener(testListener, totalTests, testRunnerName);
 
                 XmlNode result = runner.Run(eventHandler, filter);
                 return eventHandler.TestRunState;
             }
         }
 
+        static string getTestRunnerName(Assembly testRunnerName)
+        {
+            foreach(var assemblyName in testRunnerName.GetReferencedAssemblies())
+            {
+                if (assemblyName.Name == "nunit.framework")
+                {
+                    return getTestRunnerName(assemblyName);
+                }
+            }
+
+            return "NUnit - Unknown Version";
+        }
+
+        static string getTestRunnerName(AssemblyName assemblyName)
+        {
+            var version = assemblyName.Version;
+            return string.Format("NUnit {0}.{1}.{2}", version.Major, version.Minor, version.MajorRevision);
+        }
+
+
         public class TestEventListener : ITestEventListener
         {
             TDF.ITestListener testListener;
             int totalTests;
+            string testRunnerName;
 
             public TDF.TestRunState TestRunState
             {
                 get; private set;
             }
 
-            public TestEventListener(TDF.ITestListener testListener, int totalTests)
+            public TestEventListener(TDF.ITestListener testListener, int totalTests, string testRunnerName)
             {
                 this.testListener = testListener;
                 this.totalTests = totalTests;
+                this.testRunnerName = testRunnerName;
                 TestRunState = TDF.TestRunState.Success;
             }
 
@@ -101,6 +124,7 @@
 
                     var testResult = new TDF.TestResult();
                     testResult.TotalTests = totalTests;
+                    testResult.TestRunnerName = testRunnerName;
 
                     testResult.Name = element.GetAttribute("fullname");
 
