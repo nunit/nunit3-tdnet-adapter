@@ -1,7 +1,7 @@
 <Project DefaultTargets="Clean;Build;NuGet;WiX" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-    <!-- Use Visual Studio Team Services build number if available (defaults to 0) -->
-    <BuildNumber>$(BUILD_BUILDNUMBER)</BuildNumber>
+    <!-- Use Visual Studio Team Services BuildID if available (defaults to 0) -->
+    <BuildNumber>$(%BUILD_BUILDID)</BuildNumber>
     <BuildNumber Condition=" $(BuildNumber) == '' ">0</BuildNumber>
     <PreRelease>-beta</PreRelease>
 	</PropertyGroup>
