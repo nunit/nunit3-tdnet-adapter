@@ -131,8 +131,7 @@
                     var message = element.SelectSingleNode("//message");
                     if (message != null)
                     {
-                        //var text = trimNewLine(message.InnerText);
-                        var text = message.InnerText;
+                        var text = trimNewLine(message.InnerText);
                         testResult.Message = text;
                     }
 
