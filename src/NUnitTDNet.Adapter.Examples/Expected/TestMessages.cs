@@ -25,5 +25,15 @@
         public void AttributeIgnore()
         {
         }
+
+        // Check message doesn't end with line break.
+        [Test]
+        [ExpectTest(ClassName + ".AreEqual", Message = @"  Expected: 1
+  But was:  <<equal 2>>")]
+        public void AreEqual()
+        {
+            Assert.AreEqual(1, Is.EqualTo(2));
+        }
+
     }
 }

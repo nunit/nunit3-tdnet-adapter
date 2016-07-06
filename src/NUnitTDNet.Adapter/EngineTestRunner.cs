@@ -131,7 +131,9 @@
                     var message = element.SelectSingleNode("//message");
                     if (message != null)
                     {
-                        testResult.Message = message.InnerText;
+                        //var text = trimNewLine(message.InnerText);
+                        var text = message.InnerText;
+                        testResult.Message = text;
                     }
 
                     var stackTrace = element.SelectSingleNode("//stack-trace");
@@ -143,13 +145,7 @@
                     var output = element.SelectSingleNode("//output");
                     if (output != null)
                     {
-                        var text = output.InnerText;
-                        var newLine = Environment.NewLine;
-                        if(text.EndsWith(newLine))
-                        {
-                            text = text.Substring(0, text.Length - newLine.Length);
-                        }
-
+                        var text = trimNewLine(output.InnerText);
                         testListener.WriteLine(text, TDF.Category.Output);
                     }
 
@@ -175,6 +171,17 @@
 
                     testListener.TestFinished(testResult);
                 }
+            }
+
+            static string trimNewLine(string text)
+            {
+                var newLine = Environment.NewLine;
+                if (text.EndsWith(newLine))
+                {
+                    text = text.Substring(0, text.Length - newLine.Length);
+                }
+
+                return text;
             }
         }
     }
