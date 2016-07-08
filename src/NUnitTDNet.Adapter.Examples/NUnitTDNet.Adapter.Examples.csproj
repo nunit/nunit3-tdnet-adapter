@@ -54,6 +54,7 @@
     <Compile Include="Expected\ExpectClass.cs" />
     <Compile Include="Expected\ClassTests.cs" />
     <Compile Include="Expected\ExplicitTests.cs" />
+    <Compile Include="Expected\InconclusiveTests.cs" />
     <Compile Include="Expected\MethodTests.cs" />
     <Compile Include="Expected\NestedClassTests.cs" />
     <Compile Include="Expected\OverloadedMethodTests.cs" />

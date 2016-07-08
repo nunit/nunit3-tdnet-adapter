@@ -159,11 +159,11 @@
                             testResult.State = TDF.TestState.Passed;
                             break;
                         case "Skipped":
+                        case "Inconclusive":
                             testResult.State = TDF.TestState.Ignored;
                             break;
                         default:
-                            // what else?
-                            Console.WriteLine(report);
+                            testListener.WriteLine("Unknown 'result': " + result + "\n" + report, TDF.Category.Error);
                             testResult.State = TDF.TestState.Failed;
                             break;
                     }
