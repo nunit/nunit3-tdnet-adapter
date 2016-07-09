@@ -2,7 +2,7 @@
 
 ![Build Status](https://jcansdale.visualstudio.com/_apis/public/build/definitions/17426c0c-208b-4a70-95d8-0276ef7e3691/10/badge)
 
-The is the project home of the 'NUnitTDNet' NuGet package:
+This is the project home of the 'NUnitTDNet' NuGet package:
 https://www.nuget.org/packages/NUnitTDNet/
 
 This package includes the 'nunit.framework' assembly and an adaptor for executing NUnit 3.x unit tests with all versions of TestDriven.Net. You must reference this package if you want to execute NUnit 3.x tests with a version of TestDriven.Net earlier than TestDriven.Net 3.10.
