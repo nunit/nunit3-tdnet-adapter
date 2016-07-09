@@ -4,3 +4,4 @@
 **/obj/Debug/
 *.suo
 *.user
+/TestResults

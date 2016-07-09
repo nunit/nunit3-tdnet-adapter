@@ -4,11 +4,12 @@
     <BuildNumber>$(%BUILD_BUILDID)</BuildNumber>
     <BuildNumber Condition=" $(BuildNumber) == '' ">0</BuildNumber>
     <PreRelease>-beta</PreRelease>
+    <PreRelease></PreRelease>
 	</PropertyGroup>
 	<PropertyGroup>
     <NUSpecFile>package\NUnitTDNet.nuspec</NUSpecFile>
 		<SolutionFile>src\NUnitTDNetAdapter.sln</SolutionFile>
-    <Version>3.4.0</Version>
+    <Version>3.4.1</Version>
     <PackagesPath>$(MSBuildProjectDirectory)\src\packages</PackagesPath>
 		<OutputPath>$(MSBuildProjectDirectory)\build</OutputPath>
 		<Properties>Version=$(Version);BuildNumber=$(BuildNumber);PreRelease=$(PreRelease);PackagesPath=$(PackagesPath);OutputPath=$(OutputPath)</Properties>
