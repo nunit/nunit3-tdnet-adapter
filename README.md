@@ -11,7 +11,7 @@ If you're using TestDriven.Net 3.10 or later, this adaptor is built in can be us
 
 It is recomended that you reference this package if you want to use a modern version of NUnit 3.x, but you know there are people who might run the tests using a version of TestDriven.Net that you don't control (that would otherwise be incompatible). There is no harm referencing this package if you're using TestDriven.Net 3.10 or later (but it is no longer required).
 
-Feel free to add issues or tweet me any questions and suggestions!
+Feel free to add issues or tweet me with any questions or suggestions!
 
 [![Follow Jamie](https://img.shields.io/twitter/follow/jcansdale.svg?style=social)](https://twitter.com/jcansdale)
 
