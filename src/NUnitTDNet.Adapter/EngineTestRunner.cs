@@ -21,13 +21,14 @@
         public TDF.TestRunState RunAssembly(TDF.ITestListener testListener, Assembly assembly)
         {
             var testPath = new Uri(assembly.EscapedCodeBase).LocalPath;
-            return run(testListener, assembly, testPath);
+            var testPaths = new string[] { testPath };
+            return run(testListener, assembly, testPaths);
         }
 
         public TDF.TestRunState RunMember(TDF.ITestListener testListener, Assembly assembly, MemberInfo member)
         {
-            string testPath = Utilities.GetTestPath(member);
-            return run(testListener, assembly, testPath);
+            var testPaths = Utilities.GetTestPaths(member);
+            return run(testListener, assembly, testPaths);
         }
 
         public TDF.TestRunState RunNamespace(TDF.ITestListener testListener, Assembly assembly, string ns)
@@ -38,10 +39,11 @@
                 testPath = new Uri(assembly.EscapedCodeBase).LocalPath;
             }
 
-            return run(testListener, assembly, testPath);
+            var testPaths = new string[] { testPath };
+            return run(testListener, assembly, testPaths);
         }
 
-        TDF.TestRunState run(TDF.ITestListener testListener, Assembly testAssembly, string testPath)
+        TDF.TestRunState run(TDF.ITestListener testListener, Assembly testAssembly, string[] testPaths)
         {
             using (var engine = new TestEngineClass())
             {
@@ -55,7 +57,10 @@
 
                 var filterService = engine.Services.GetService<ITestFilterService>();
                 ITestFilterBuilder builder = filterService.GetTestFilterBuilder();
-                builder.AddTest(testPath);
+                foreach(var testPath in testPaths)
+                {
+                    builder.AddTest(testPath);
+                }
 
                 var filter = builder.GetFilter();
 

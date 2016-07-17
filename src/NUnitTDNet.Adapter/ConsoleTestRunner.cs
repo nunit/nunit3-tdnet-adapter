@@ -20,16 +20,17 @@
 
         public TestRunState RunMember(ITestListener testListener, Assembly assembly, MemberInfo member)
         {
-            string testPath = Utilities.GetTestPath(member);
-            return executeConsoleRunner(testListener, assembly, testPath);
+            var testPaths = Utilities.GetTestPaths(member);
+            return executeConsoleRunner(testListener, assembly, testPaths);
         }
 
         public TestRunState RunNamespace(ITestListener testListener, Assembly assembly, string ns)
         {
-            return executeConsoleRunner(testListener, assembly, ns);
+            var testPaths = new string[] { ns };
+            return executeConsoleRunner(testListener, assembly, testPaths);
         }
 
-        TestRunState executeConsoleRunner(ITestListener testListener, Assembly testAssembly, string testPath)
+        TestRunState executeConsoleRunner(ITestListener testListener, Assembly testAssembly, string[] testPaths)
         {
             var exeFile = findConsoleRunner();
             if(exeFile == null)
@@ -39,13 +40,15 @@
 
             string assemblyFile = new Uri(testAssembly.EscapedCodeBase).LocalPath;
             string arguments = quote(assemblyFile);
-            if(testPath != null)
+            if(testPaths != null)
             {
-                arguments += " --test=" + quote(testPath);
+                foreach(var testPath in testPaths)
+                {
+                    arguments += " --test=" + quote(testPath);
+                }
             }
 
             arguments += " --process:InProcess";
-            //arguments += " --teamcity";
 
             var startInfo = new ProcessStartInfo(exeFile, arguments);
             startInfo.UseShellExecute = false;

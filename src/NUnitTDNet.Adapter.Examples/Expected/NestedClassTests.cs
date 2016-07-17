@@ -3,8 +3,7 @@
     using NUnit.Framework;
     using TestDriven.Framework;
 
-    // Should we attempt to run nested classes?
-    [ExpectTestRun(TestRunState.NoTests)]
+    [ExpectTestRun(TestRunState.Success, PassedCount = 1)]
     public class NestedClassTests
     {
         [ExpectTestRun(TestRunState.Success, PassedCount = 1)]
