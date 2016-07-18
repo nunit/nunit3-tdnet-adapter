@@ -20,30 +20,27 @@
     {
         public TDF.TestRunState RunAssembly(TDF.ITestListener testListener, Assembly assembly)
         {
-            var testPath = new Uri(assembly.EscapedCodeBase).LocalPath;
-            var testPaths = new string[] { testPath };
-            return run(testListener, assembly, testPaths);
+            return run(testListener, assembly, null);
         }
 
         public TDF.TestRunState RunMember(TDF.ITestListener testListener, Assembly assembly, MemberInfo member)
         {
-            var testPaths = Utilities.GetTestPaths(member);
-            return run(testListener, assembly, testPaths);
+            var where = Utilities.GetWhereForTarget(assembly, member);
+            if(string.IsNullOrEmpty(where))
+            {
+                return TDF.TestRunState.NoTests;
+            }
+
+            return run(testListener, assembly, where);
         }
 
         public TDF.TestRunState RunNamespace(TDF.ITestListener testListener, Assembly assembly, string ns)
         {
-            var testPath = ns;
-            if(string.IsNullOrEmpty(ns))
-            {
-                testPath = new Uri(assembly.EscapedCodeBase).LocalPath;
-            }
-
-            var testPaths = new string[] { testPath };
-            return run(testListener, assembly, testPaths);
+            var where = Utilities.GetWhereForTarget(assembly, ns);
+            return run(testListener, assembly, where);
         }
 
-        TDF.TestRunState run(TDF.ITestListener testListener, Assembly testAssembly, string[] testPaths)
+        TDF.TestRunState run(TDF.ITestListener testListener, Assembly testAssembly, string where)
         {
             using (var engine = new TestEngineClass())
             {
@@ -57,13 +54,12 @@
 
                 var filterService = engine.Services.GetService<ITestFilterService>();
                 ITestFilterBuilder builder = filterService.GetTestFilterBuilder();
-                foreach(var testPath in testPaths)
+                if (!string.IsNullOrEmpty(where))
                 {
-                    builder.AddTest(testPath);
+                    builder.SelectWhere(where);
                 }
 
                 var filter = builder.GetFilter();
-
                 var totalTests = runner.CountTestCases(filter);
                 if (totalTests == 0)
                 {

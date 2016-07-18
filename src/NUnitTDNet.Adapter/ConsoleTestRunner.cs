@@ -20,17 +20,22 @@
 
         public TestRunState RunMember(ITestListener testListener, Assembly assembly, MemberInfo member)
         {
-            var testPaths = Utilities.GetTestPaths(member);
-            return executeConsoleRunner(testListener, assembly, testPaths);
+            var where = Utilities.GetWhereForTarget(assembly, member);
+            if(string.IsNullOrEmpty(where))
+            {
+                return TestRunState.NoTests;
+            }
+
+            return executeConsoleRunner(testListener, assembly, where);
         }
 
         public TestRunState RunNamespace(ITestListener testListener, Assembly assembly, string ns)
         {
-            var testPaths = new string[] { ns };
-            return executeConsoleRunner(testListener, assembly, testPaths);
+            var where = Utilities.GetWhereForTarget(assembly, ns);
+            return executeConsoleRunner(testListener, assembly, where);
         }
 
-        TestRunState executeConsoleRunner(ITestListener testListener, Assembly testAssembly, string[] testPaths)
+        TestRunState executeConsoleRunner(ITestListener testListener, Assembly testAssembly, string where)
         {
             var exeFile = findConsoleRunner();
             if(exeFile == null)
@@ -40,12 +45,9 @@
 
             string assemblyFile = new Uri(testAssembly.EscapedCodeBase).LocalPath;
             string arguments = quote(assemblyFile);
-            if(testPaths != null)
+            if(!string.IsNullOrEmpty(where))
             {
-                foreach(var testPath in testPaths)
-                {
-                    arguments += " --test=" + quote(testPath);
-                }
+                arguments += " --where=" + quote(where);
             }
 
             arguments += " --process:InProcess";
