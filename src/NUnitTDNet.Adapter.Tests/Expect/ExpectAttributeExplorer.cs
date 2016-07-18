@@ -76,13 +76,13 @@
 
         public static string GetName(MemberInfo member)
         {
-            var declaringType = member.DeclaringType;
-            if(declaringType == null)
+            var reflectedType = member.ReflectedType;
+            if (reflectedType == null)
             {
                 return member.ToString();
             }
 
-            return declaringType.FullName + "." + member.ToString();
+            return reflectedType.FullName + "." + member.ToString();
         }
 
         public static MemberInfo GetMember(string name)
@@ -108,7 +108,7 @@
 
             public void VisitAssembly(Assembly assembly)
             {
-                foreach (Type type in assembly.GetExportedTypes())
+                foreach (Type type in assembly.GetTypes())
                 {
                     visitType(type);
                 }
@@ -116,7 +116,9 @@
 
             void visitType(Type type)
             {
-                foreach (MemberInfo childMember in type.GetMembers())
+                var bindingFlags = BindingFlags.DeclaredOnly; // only include directly targeted members
+                bindingFlags |=  BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
+                foreach (MemberInfo childMember in type.GetMembers(bindingFlags))
                 {
                     visitMember(childMember);
                 }
