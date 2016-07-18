@@ -41,6 +41,11 @@
 
     public class ExpectTestAttribute : ExpectAttribute
     {
+        public ExpectTestAttribute(Type fixture, string name, TestState testState) : this(fixture.FullName + "." + name)
+        {
+            State = testState;
+        }
+
         public ExpectTestAttribute(string name, TestState testState) : this(name)
         {
             State = testState;

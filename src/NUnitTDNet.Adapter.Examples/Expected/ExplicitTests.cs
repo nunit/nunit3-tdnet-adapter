@@ -40,4 +40,25 @@
             }
         }
     }
+
+    [ExpectTestRun(TestRunState.Success, PassedCount = 1)]
+    [Explicit, TestFixture(typeof(string))]
+    public class ExplicitGenericFixtures<T>
+    {
+        [Test]
+        public void Test()
+        {
+        }
+    }
+
+    [TestFixture(typeof(string))]
+    public class ExplicitTestsInGenericFixtures<T>
+    {
+        [ExpectTestRun(TestRunState.Success, PassedCount = 1)]
+        [Explicit, Test]
+        public void ExplicitTest()
+        {
+        }
+    }
+
 }
