@@ -54,7 +54,11 @@
     [TestFixture(typeof(string))]
     public class ExplicitTestsInGenericFixtures<T>
     {
-        [ExpectTestRun(TestRunState.Success, PassedCount = 1)]
+        // This doesn't currently work due to issue:
+        // https://github.com/nunit/nunit/issues/1684
+        // "Exact match on class and method doesn't run explicit tests"
+        //
+        // [ExpectTestRun(TestRunState.Success, PassedCount = 1)]
         [Explicit, Test]
         public void ExplicitTest()
         {
