@@ -48,7 +48,7 @@
                 return orWhereClauses(whereClauseList);
             }
 
-            throw new Exception("Member type not supported: " + member.GetType());
+            return null; // no tests
         }
 
         static string orWhereClauses(ICollection<string> whereClauses)
