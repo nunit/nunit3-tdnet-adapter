@@ -3,7 +3,7 @@
     <!-- Use Visual Studio Team Services BuildID if available (defaults to 0) -->
     <BuildNumber>$(%BUILD_BUILDID)</BuildNumber>
     <BuildNumber Condition=" $(BuildNumber) == '' ">0</BuildNumber>
-    <PreRelease>-beta</PreRelease>
+    <!-- <PreRelease>-beta</PreRelease> -->
     <PreRelease></PreRelease>
 	</PropertyGroup>
 	<PropertyGroup>
