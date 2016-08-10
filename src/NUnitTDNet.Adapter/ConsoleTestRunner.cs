@@ -13,6 +13,18 @@
     /// </summary>
     public class ConsoleTestRunner : ITestRunner
     {
+        string packagesDir;
+
+        public ConsoleTestRunner()
+        {
+            packagesDir = findPackagesDirectory();
+        }
+
+        public ConsoleTestRunner(string dir)
+        {
+            packagesDir = findPackagesDirectory(dir);
+        }
+
         public TestRunState RunAssembly(ITestListener testListener, Assembly assembly)
         {
             return executeConsoleRunner(testListener, assembly, null);
@@ -81,9 +93,8 @@
             return '"' + text + '"';
         }
 
-        static string findConsoleRunner()
+        string findConsoleRunner()
         {
-            var packagesDir = findPackagesDirectory();
             if(packagesDir == null)
             {
                 return null;
@@ -105,9 +116,14 @@
         static string findPackagesDirectory()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var dir = new Uri(assembly.EscapedCodeBase).LocalPath;
+            var localPath = new Uri(assembly.EscapedCodeBase).LocalPath;
+            var dir = Path.GetDirectoryName(localPath);
+            return findPackagesDirectory(dir);
+        }
 
-            while(true)
+        static string findPackagesDirectory(string dir)
+        {
+            while (true)
             {
                 var packagesDir = Path.Combine(dir, "packages");
                 if(Directory.Exists(packagesDir))
