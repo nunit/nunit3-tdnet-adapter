@@ -1,4 +1,4 @@
-﻿namespace NUnitTDNet.Adapter.Tests
+﻿namespace NUnitTDNet.Adapter.Tests.Expect
 {
     using System;
     using System.Text;
@@ -12,29 +12,51 @@
     [TestClass]
     public class ExpectTests
     {
-        ITestRunner testRunner;
+        ITestRunner testRunner = new EngineTestRunner();
 
-        [TestInitialize]
-        public void CreateTestRunner()
-        {
-            testRunner = new EngineTestRunner();
-        }
+        //[TestInitialize]
+        //public void CreateTestRunner()
+        //{
+        //    testRunner = new EngineTestRunner();
+        //}
 
-        public TestContext TestContext
-        {
-            get; set;
-        }
+        //public TestContext TestContext
+        //{
+        //    get; set;
+        //}
+
+        //[TestMethod]
+        //[DataSource("Microsoft.VisualStudio.TestTools.DataSource.XML",
+        //           "|DataDirectory|\\" + ExpectAttributeExplorer.XmlFile,
+        //           "Expect", DataAccessMethod.Sequential)]
+        //public void ExpectAttributeBasedAssertions()
+        //{
+        //    var name = (string)TestContext.DataRow["Name"];
+        //    var testAssembly = ExpectAttributeExplorer.TestAssembly;
+        //    var member = ExpectAttributeExplorer.GetMember(name);
+        //    var expectAttribute = ExpectAttributeExplorer.GetExpectAttribute(name);
+        //    var expectEntry = new ExpectEntry(name, testAssembly, member, expectAttribute);
+        //    ExpectAttributeBasedAssertions(expectEntry);
+        //}
 
         [TestMethod]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.XML",
-                   "|DataDirectory|\\" + ExpectAttributeExplorer.XmlFile,
-                   "Expect", DataAccessMethod.Sequential)]
         public void ExpectAttributeBasedAssertions()
         {
-            var name = (string)TestContext.DataRow["Name"];
-            var testAssembly = ExpectAttributeExplorer.TestAssembly;
-            var member = ExpectAttributeExplorer.GetMember(name);
-            var expectAttribute = ExpectAttributeExplorer.GetExpectAttribute(name);
+            var testAssembly = typeof(ExpectAttribute).Assembly;
+            foreach (var expectEntry in new ExpectAttributeExplorer(testAssembly))
+            {
+                Console.WriteLine(expectEntry.Name);
+                ExpectAttributeBasedAssertions(expectEntry);
+            }
+        }
+
+        public void ExpectAttributeBasedAssertions(ExpectEntry expectEntry)
+        {
+            var name = expectEntry.Name;
+            var testAssembly = expectEntry.TestAssembly;
+            var member = expectEntry.Member;
+            var expectAttribute = expectEntry.ExpectAttribute;
+
             var testListener = new FakeTestListener();
             TestRunState testRunState;
 

@@ -1,77 +1,46 @@
 ﻿namespace NUnitTDNet.Adapter.Tests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using NUnitTDNet.Adapter.Examples;
+    using Expect;
     using NUnitTDNet.Adapter.Examples.Expected;
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Reflection;
-    using System.Text;
-    using System.Threading;
+    using System.Collections;
 
-    [TestClass]
-    public class ExpectAttributeExplorer
+    public class ExpectAttributeExplorer : IEnumerable<ExpectEntry>
     {
-        public const string XmlFile = "Expect.xml";
+        IEnumerable<ExpectEntry> expectEntries;
 
-        static void Main()
+        public ExpectAttributeExplorer(Assembly testAssembly)
         {
-            new ExpectXmlWriter().Write(XmlFile);
+            expectEntries = getExpectEntries(testAssembly);
         }
 
-        class ExpectXmlWriter
+        public IEnumerator<ExpectEntry> GetEnumerator()
         {
-            public TextWriter writer;
+            return expectEntries.GetEnumerator();
+        }
 
-            public void Write(string xmlFile)
-            {
-                using (writer = new StreamWriter(XmlFile))
-                {
-                    writer.WriteLine("<Expects>");
-                    TestAssembly = typeof(ExpectAttribute).Assembly;
-                    var memberVisitor = new MemberVisitor(visitor);
-                    memberVisitor.VisitAssembly(TestAssembly);
-                    writer.WriteLine("</Expects>");
-                }
-            }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return expectEntries.GetEnumerator();
+        }
 
-            void visitor(MemberInfo member)
+        static IEnumerable<ExpectEntry> getExpectEntries(Assembly testAssembly)
+        {
+            var expectEntryList = new List<ExpectEntry>();
+            var memberVisitor = new MemberVisitor((MemberInfo member) =>
             {
                 var expectAttributes = member.GetCustomAttributes(typeof(ExpectAttribute), false);
                 foreach (ExpectAttribute expectAttribute in expectAttributes)
                 {
                     string name = GetName(member);
-                    writer.WriteLine(string.Format("    <Expect Name='{0}' />", name));
+                    var expectEntry = new ExpectEntry(name, testAssembly, member, expectAttribute);
+                    expectEntryList.Add(expectEntry);
                 }
-            }
-        }
-
-        [AssemblyInitialize]
-        public static void FindExpectAttributes(TestContext testContext)
-        {
-            TestAssembly = typeof(ExpectAttribute).Assembly;
-            var memberVisitor = new MemberVisitor(visitAttributes);
-            memberVisitor.VisitAssembly(TestAssembly);
-        }
-
-        public static Assembly TestAssembly
-        {
-            get; private set;
-        }
-
-        public static Dictionary<string, MemberInfo> memberDictionary = new Dictionary<string, MemberInfo>();
-        public static Dictionary<string, ExpectAttribute> expectAttributeDictionary = new Dictionary<string, ExpectAttribute>();
-
-        static void visitAttributes(MemberInfo member)
-        {
-            var expectAttributes = member.GetCustomAttributes(typeof(ExpectAttribute), false);
-            foreach (ExpectAttribute expectAttribute in expectAttributes)
-            {
-                string name = GetName(member);
-                memberDictionary.Add(name, member);
-                expectAttributeDictionary.Add(name, expectAttribute);
-            }
+            });
+            memberVisitor.VisitAssembly(testAssembly);
+            return expectEntryList;
         }
 
         public static string GetName(MemberInfo member)
@@ -83,16 +52,6 @@
             }
 
             return reflectedType.FullName + "." + member.ToString();
-        }
-
-        public static MemberInfo GetMember(string name)
-        {
-            return memberDictionary[name];
-        }
-
-        public static ExpectAttribute GetExpectAttribute(string name)
-        {
-            return expectAttributeDictionary[name];
         }
 
         class MemberVisitor

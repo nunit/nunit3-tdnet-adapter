@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{61745281-8299-4E59-AD60-BB75D8002861}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NUnitTDNet.Adapter.Tests</RootNamespace>
     <AssemblyName>NUnitTDNet.Adapter.Tests</AssemblyName>
@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="CompilerUtilities.cs" />
     <Compile Include="Expect\ExpectAttributeExplorer.cs" />
+    <Compile Include="Expect\ExpectEntry.cs" />
     <Compile Include="Expect\ExpectTests.cs" />
     <Compile Include="Fakes\FakeTestListener.cs" />
     <Compile Include="ConsoleTestRunnerTests.cs" />
@@ -100,9 +101,8 @@
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo "Creating Expect.xml file"
-cd "$(TargetDir)"
-"$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
