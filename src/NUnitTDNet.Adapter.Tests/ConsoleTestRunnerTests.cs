@@ -7,23 +7,18 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Threading;
     using System.IO;
+    using TestDriven.Framework;
 
     [TestClass]
-    public class ConsoleTestRunnerTests
+    public class ConsoleTestRunnerTests    
     {
-        ConsoleTestRunner testRunner;
-
-        public ConsoleTestRunnerTests()
-        {
-            testRunner = new ConsoleTestRunner(findDir());
-        }
-
         [TestMethod]
         public void RunMember_SomeTestsPass_PassedCount1()
         {
             var testListener = new FakeTestListener();
             var testMethod = new ThreadStart(SomeTests.Pass).Method;
             var testAssembly = testMethod.DeclaringType.Assembly;
+            var testRunner = createTestRunner();
 
             testRunner.RunMember(testListener, testAssembly, testMethod);
 
@@ -37,9 +32,15 @@
             var testMethod = new ThreadStart(SomeTests.Fail).Method;
             var testAssembly = testMethod.DeclaringType.Assembly;
 
+            var testRunner = createTestRunner();
             testRunner.RunMember(testListener, testAssembly, testMethod);
 
             Assert.AreEqual(1, testListener.FailedCount, "Check one test failed.");
+        }
+
+        ITestRunner createTestRunner()
+        {
+            return new ConsoleTestRunner(findDir());
         }
 
         static string findDir()

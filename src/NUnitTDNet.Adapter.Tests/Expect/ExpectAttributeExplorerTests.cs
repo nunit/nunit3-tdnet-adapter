@@ -1,87 +1,75 @@
 ﻿namespace NUnitTDNet.Adapter.Tests
 {
     using System;
-    using System.Text;
-    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using NUnitTDNet.Adapter.Examples;
-    using System.Reflection;
     using NUnitTDNet.Adapter.Examples.Expected;
     using System.Threading;
-    using System.Xml;
 
     [TestClass]
     public class ExpectAttributeExplorerTests
     {
-        //[TestMethod]
-        //public void GetMember_ExpectClass_Exists()
-        //{
-        //    var expectClass = typeof(ExpectClass);
-        //    var name = ExpectAttributeExplorer.GetName(expectClass);
+        static ExpectAttributeExplorer explorer;
 
-        //    var member = ExpectAttributeExplorer.GetMember(name);
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
+        {
+            explorer = new ExpectAttributeExplorer(typeof(ExpectClass).Assembly);
+        }
 
-        //    Assert.AreEqual(expectClass, member);
-        //}
+        [TestMethod]
+        public void FindExpectEntry_ExpectClass_Exists()
+        {
+            var expectClass = typeof(ExpectClass);
+            var name = ExpectAttributeExplorer.GetName(expectClass);
 
-        //[TestMethod]
-        //public void GetMember_ExpectMethod_Exists()
-        //{
-        //    var expectMethod = new ThreadStart(ExpectClass.ExpectMethod).Method;
-        //    var name = ExpectAttributeExplorer.GetName(expectMethod);
+            var expectEntry = explorer.FindExpectEntry(name);
 
-        //    var member = ExpectAttributeExplorer.GetMember(name);
+            Assert.AreEqual(expectClass, expectEntry.Member);
+        }
 
-        //    Assert.AreEqual(expectMethod, member);
-        //}
+        [TestMethod]
+        public void FindExpectEntry_ExpectMethod_Exists()
+        {
+            var expectMethod = new ThreadStart(ExpectClass.ExpectMethod).Method;
+            var name = ExpectAttributeExplorer.GetName(expectMethod);
+            var explorer = new ExpectAttributeExplorer(expectMethod.DeclaringType.Assembly);
 
-        //[TestMethod]
-        //public void GetMember_ExpectNestedClass_Exists()
-        //{
-        //    var expectClass = typeof(ExpectClass.ExpectNestedClass);
-        //    var name = ExpectAttributeExplorer.GetName(expectClass);
+            var expectEntry = explorer.FindExpectEntry(name);
 
-        //    var member = ExpectAttributeExplorer.GetMember(name);
+            Assert.AreEqual(expectMethod, expectEntry.Member);
+        }
 
-        //    Assert.AreEqual(expectClass, member);
-        //}
+        [TestMethod]
+        public void FindExpectEntry_ExpectNestedClass_Exists()
+        {
+            var expectClass = typeof(ExpectClass.ExpectNestedClass);
+            var name = ExpectAttributeExplorer.GetName(expectClass);
 
-        //[TestMethod]
-        //public void GetMember_ExpectMethodInNestedType_Exists()
-        //{
-        //    var expectMethod = new ThreadStart(ExpectClass.ExpectNestedClass.ExpectMethod).Method;
-        //    var name = ExpectAttributeExplorer.GetName(expectMethod);
+            var expectEntry = explorer.FindExpectEntry(name);
 
-        //    var member = ExpectAttributeExplorer.GetMember(name);
+            Assert.AreEqual(expectClass, expectEntry.Member);
+        }
 
-        //    Assert.AreEqual(expectMethod, member);
-        //}
+        [TestMethod]
+        public void FindExpectEntry_ExpectMethodInNestedType_Exists()
+        {
+            var expectMethod = new ThreadStart(ExpectClass.ExpectNestedClass.ExpectMethod).Method;
+            var name = ExpectAttributeExplorer.GetName(expectMethod);
 
-        //[TestMethod]
-        //public void GetExpectAttribute_Class_Exists()
-        //{
-        //    var expectClass = typeof(ExpectClass);
-        //    var name = ExpectAttributeExplorer.GetName(expectClass);
+            var expectEntry = explorer.FindExpectEntry(name);
 
-        //    var attribute = ExpectAttributeExplorer.GetExpectAttribute(name);
+            Assert.AreEqual(expectMethod, expectEntry.Member);
+        }
 
-        //    Assert.IsNotNull(attribute);
-        //}
+        [TestMethod]
+        public void FindExpectEntry_Class_Exists()
+        {
+            var expectClass = typeof(ExpectClass);
+            var name = ExpectAttributeExplorer.GetName(expectClass);
 
-        //[TestMethod]
-        //public void ExpectXml_Class_Exists()
-        //{
-        //    var expectClass = typeof(ExpectClass);
-        //    var name = ExpectAttributeExplorer.GetName(expectClass);
-        //    var xpath = string.Format("/Expects/Expect[@Name='{0}']", name);
-        //    var expectXml = string.Format(@"<Expect Name=""{0}"" />", name);
+            var expectEntry = explorer.FindExpectEntry(name);
 
-        //    var xmlDoc = new XmlDocument();
-        //    xmlDoc.Load(ExpectAttributeExplorer.XmlFile);
-        //    var node = xmlDoc.SelectSingleNode(xpath);
-
-        //    Assert.IsNotNull(node);
-        //    Assert.AreEqual(expectXml, node.OuterXml);
-        //}
+            Assert.IsNotNull(expectEntry.ExpectAttribute);
+        }
     }
 }

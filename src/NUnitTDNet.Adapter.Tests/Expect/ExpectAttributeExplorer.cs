@@ -26,6 +26,19 @@
             return expectEntries.GetEnumerator();
         }
 
+        public ExpectEntry FindExpectEntry(string name)
+        {
+            foreach(var expectEntry in this)
+            {
+                if(expectEntry.Name == name)
+                {
+                    return expectEntry;
+                }
+            }
+
+            return null;
+        }
+
         static IEnumerable<ExpectEntry> getExpectEntries(Assembly testAssembly)
         {
             var expectEntryList = new List<ExpectEntry>();

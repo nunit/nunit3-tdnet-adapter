@@ -1,8 +1,6 @@
 ﻿namespace NUnitTDNet.Adapter.Tests.Expect
 {
     using System;
-    using System.Text;
-    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using TestDriven.Framework;
     using Fakes;
@@ -12,45 +10,20 @@
     [TestClass]
     public class ExpectTests
     {
-        ITestRunner testRunner = new EngineTestRunner();
-
-        //[TestInitialize]
-        //public void CreateTestRunner()
-        //{
-        //    testRunner = new EngineTestRunner();
-        //}
-
-        //public TestContext TestContext
-        //{
-        //    get; set;
-        //}
-
-        //[TestMethod]
-        //[DataSource("Microsoft.VisualStudio.TestTools.DataSource.XML",
-        //           "|DataDirectory|\\" + ExpectAttributeExplorer.XmlFile,
-        //           "Expect", DataAccessMethod.Sequential)]
-        //public void ExpectAttributeBasedAssertions()
-        //{
-        //    var name = (string)TestContext.DataRow["Name"];
-        //    var testAssembly = ExpectAttributeExplorer.TestAssembly;
-        //    var member = ExpectAttributeExplorer.GetMember(name);
-        //    var expectAttribute = ExpectAttributeExplorer.GetExpectAttribute(name);
-        //    var expectEntry = new ExpectEntry(name, testAssembly, member, expectAttribute);
-        //    ExpectAttributeBasedAssertions(expectEntry);
-        //}
-
         [TestMethod]
         public void ExpectAttributeBasedAssertions()
         {
             var testAssembly = typeof(ExpectAttribute).Assembly;
-            foreach (var expectEntry in new ExpectAttributeExplorer(testAssembly))
+            var explorer = new ExpectAttributeExplorer(testAssembly);
+            var testRunner = new EngineTestRunner();
+            foreach (var expectEntry in explorer)
             {
                 Console.WriteLine(expectEntry.Name);
-                ExpectAttributeBasedAssertions(expectEntry);
+                ExpectAttributeBasedAssertions(testRunner, expectEntry);
             }
         }
 
-        public void ExpectAttributeBasedAssertions(ExpectEntry expectEntry)
+        public void ExpectAttributeBasedAssertions(ITestRunner testRunner, ExpectEntry expectEntry)
         {
             var name = expectEntry.Name;
             var testAssembly = expectEntry.TestAssembly;
