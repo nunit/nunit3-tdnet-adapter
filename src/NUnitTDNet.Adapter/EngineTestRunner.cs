@@ -90,7 +90,7 @@
         static string getTestRunnerName(AssemblyName assemblyName)
         {
             var version = assemblyName.Version;
-            return string.Format("NUnit {0}.{1}.{2}", version.Major, version.Minor, version.MajorRevision);
+            return string.Format("NUnit {0}.{1}.{2}", version.Major, version.Minor, version.Build);
         }
 
 

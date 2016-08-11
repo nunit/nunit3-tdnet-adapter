@@ -45,8 +45,10 @@
         public void RunMember_ReferencesNUnitFramework_CheckTestRunnerName()
         {
             var assemblyName = AssemblyName.GetAssemblyName("nunit.framework.dll");
-            var expectedTestRunnerName = getFriendlyName(assemblyName);
-            var testMethod = new ThreadStart(SomeTests.Pass).Method;
+            var version = assemblyName.Version;
+            var expectedTestRunnerName = string.Format("NUnit {0}.{1}.{2}",
+                version.Major, version.Minor, version.Build);
+            var testMethod = new Action(SomeTests.Pass).Method;
             var testAssembly = testMethod.DeclaringType.Assembly;
             var testName = testMethod.DeclaringType.FullName + "." + testMethod.Name;
             var testListener = new FakeTestListener();
@@ -57,12 +59,6 @@
             var testResult = testListener.GetTestResult(testName);
             Assert.AreEqual(expectedTestRunnerName, testResult.TestRunnerName, "Check TestRunnerName.");
             
-        }
-
-        static string getFriendlyName(AssemblyName assemblyName)
-        {
-            var version = assemblyName.Version;
-            return string.Format("NUnit {0}.{1}.{2}", version.Major, version.Minor, version.MajorRevision);
         }
 
         [TestMethod]
