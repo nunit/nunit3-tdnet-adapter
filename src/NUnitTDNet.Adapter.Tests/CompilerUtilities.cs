@@ -6,9 +6,8 @@
 
     class CompilerUtilities
     {
-        public static string Compile(string dir, string assemblyName, string[] referencedAssemblies, params string[] sources)
+        public static string Compile(string assemblyFile, string[] referencedAssemblies, params string[] sources)
         {
-            var assemblyFile = Path.Combine(dir, assemblyName);
             CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
             CompilerParameters cp = new CompilerParameters();
 

@@ -23,7 +23,14 @@
             Directory.CreateDirectory(tempDir);
             foreach(var file in Directory.GetFiles(tempDir))
             {
-                File.Delete(file);
+                try
+                {
+                    File.Delete(file);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 
@@ -129,10 +136,10 @@
         public void RunAssembly_WithNoTests_NoTests()
         {
             var testListener = new FakeTestListener();
-            var testFile = "no-tests.dll";
+            var testFile = Path.Combine(tempDir, "no-tests.dll");
             var assemblyReferences = new[] { "nunit.framework.dll" };
             var source = "class NoTests {}";
-            var assemblyFile = CompilerUtilities.Compile(tempDir, testFile, assemblyReferences, source);
+            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
             var testAssembly = Assembly.LoadFrom(testFile);
             var testRunner = createTestRunner();
 
@@ -145,7 +152,7 @@
         public void RunAssembly_WithOneTest_RanOneTest()
         {
             var testListener = new FakeTestListener();
-            var testFile = "one-test.dll";
+            var testFile = Path.Combine(tempDir, "one-test.dll");
             var assemblyReferences = new[] { "nunit.framework.dll" };
             var expectedName = "TestClass.TestMethod";
             var source = @"
@@ -155,7 +162,7 @@ public class TestClass
     [Test]
     public void TestMethod() {}
 }";
-            var assemblyFile = CompilerUtilities.Compile(tempDir, testFile, assemblyReferences, source);
+            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
             var testAssembly = Assembly.LoadFrom(testFile);
             var testRunner = createTestRunner();
 
@@ -171,7 +178,7 @@ public class TestClass
         public void RunNamespace_EmptyNamespace_RanOneTest()
         {
             var testListener = new FakeTestListener();
-            var testFile = "empty-namespace.dll";
+            var testFile = Path.Combine(tempDir, "empty-namespace.dll");
             var assemblyReferences = new[] { "nunit.framework.dll" };
             var expectedName = "TestClass.TestMethod";
             var source = @"
@@ -181,7 +188,7 @@ public class TestClass
     [Test]
     public void TestMethod() {}
 }";
-            var assemblyFile = CompilerUtilities.Compile(tempDir, testFile, assemblyReferences, source);
+            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
             var testAssembly = Assembly.LoadFrom(testFile);
             var testRunner = createTestRunner();
 
@@ -197,7 +204,7 @@ public class TestClass
         public void RunNamespace_TargetNamespace_RanOneTest()
         {
             var testListener = new FakeTestListener();
-            var testFile = "target-namespace.dll";
+            var testFile = Path.Combine(tempDir, "target-namespace.dll");
             var assemblyReferences = new[] { "nunit.framework.dll" };
             var ns = "TargetNamespace";
             var expectedName = ns + ".TestClass.TestMethod";
@@ -218,7 +225,7 @@ public class OutsideNamespace
     public void Test() { }
 }
 ".Replace("{ns}", ns);
-            var assemblyFile = CompilerUtilities.Compile(tempDir, testFile, assemblyReferences, source);
+            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
             var testAssembly = Assembly.LoadFrom(testFile);
             var testRunner = createTestRunner();
 
