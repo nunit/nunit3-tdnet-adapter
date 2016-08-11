@@ -6,18 +6,10 @@
 
     class CompilerUtilities
     {
-        static void go()
+        public static string Compile(string dir, string assemblyName, string[] referencedAssemblies, params string[] sources)
         {
-            var referencedAssemblies = new[] { "nunit.framework.dll" };
-            Compile("fooo.dll", referencedAssemblies, "class X {}");
-        }
-
-        public static string Compile(string assemblyFile, string[] referencedAssemblies, params string[] sources)
-        {
+            var assemblyFile = Path.Combine(dir, assemblyName);
             CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
-
-            assemblyFile = Path.Combine(Environment.CurrentDirectory, assemblyFile);
-
             CompilerParameters cp = new CompilerParameters();
 
             // Generate an executable instead of 

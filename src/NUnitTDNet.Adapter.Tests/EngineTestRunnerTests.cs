@@ -7,16 +7,31 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Threading;
     using TestDriven.Framework;
+    using System.IO;
 
     [TestClass]
     public class EngineTestRunnerTests
     {
-        ITestRunner testRunner;
+        static string tempDir;
 
-        [TestInitialize]
-        public void CreateTestRunner()
+        // Create a temp direcoty and clean up after previous run.
+        // Files will be locked when compiled assemblies are loaded.
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
         {
-            testRunner = new EngineTestRunner();
+            tempDir = getUniqueDirectoryForType(typeof(EngineTestRunnerTests));
+            Directory.CreateDirectory(tempDir);
+            foreach(var file in Directory.GetFiles(tempDir))
+            {
+                File.Delete(file);
+            }
+        }
+
+        static string getUniqueDirectoryForType(Type type)
+        {
+            var localPath = new Uri(type.Assembly.EscapedCodeBase).LocalPath;
+            var dir = Path.GetDirectoryName(localPath);
+            return Path.Combine(dir, type.FullName);
         }
 
         [TestMethod]
@@ -28,6 +43,7 @@
             var testAssembly = testMethod.DeclaringType.Assembly;
             var testName = testMethod.DeclaringType.FullName + "." + testMethod.Name;
             var testListener = new FakeTestListener();
+            var testRunner = createTestRunner();
 
             testRunner.RunMember(testListener, testAssembly, testMethod);
 
@@ -48,6 +64,7 @@
             var testListener = new FakeTestListener();
             var testMethod = new ThreadStart(SomeTests.Pass).Method;
             var testAssembly = testMethod.DeclaringType.Assembly;
+            var testRunner = createTestRunner();
 
             testRunner.RunMember(testListener, testAssembly, testMethod);
 
@@ -60,6 +77,7 @@
             var testListener = new FakeTestListener();
             var testMethod = new ThreadStart(SomeTests.Fail).Method;
             var testAssembly = testMethod.DeclaringType.Assembly;
+            var testRunner = createTestRunner();
 
             testRunner.RunMember(testListener, testAssembly, testMethod);
 
@@ -72,6 +90,7 @@
             var testListener = new FakeTestListener();
             var testMethod = new ThreadStart(SomeTests.Ignore).Method;
             var testAssembly = testMethod.DeclaringType.Assembly;
+            var testRunner = createTestRunner();
 
             testRunner.RunMember(testListener, testAssembly, testMethod);
 
@@ -84,6 +103,7 @@
             var testListener = new FakeTestListener();
             var testClass = typeof(TwoPassingTests);
             var testAssembly = testClass.Assembly;
+            var testRunner = createTestRunner();
 
             testRunner.RunMember(testListener, testAssembly, testClass);
 
@@ -97,6 +117,7 @@
             var type = typeof(SomeTestCases);
             var testMethod = type.GetMethod("PassAndFail");
             var testAssembly = type.Assembly;
+            var testRunner = createTestRunner();
 
             testRunner.RunMember(testListener, testAssembly, testMethod);
 
@@ -111,8 +132,9 @@
             var testFile = "no-tests.dll";
             var assemblyReferences = new[] { "nunit.framework.dll" };
             var source = "class NoTests {}";
-            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
+            var assemblyFile = CompilerUtilities.Compile(tempDir, testFile, assemblyReferences, source);
             var testAssembly = Assembly.LoadFrom(testFile);
+            var testRunner = createTestRunner();
 
             var state = testRunner.RunAssembly(testListener, testAssembly);
 
@@ -133,8 +155,9 @@ public class TestClass
     [Test]
     public void TestMethod() {}
 }";
-            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
+            var assemblyFile = CompilerUtilities.Compile(tempDir, testFile, assemblyReferences, source);
             var testAssembly = Assembly.LoadFrom(testFile);
+            var testRunner = createTestRunner();
 
             var state = testRunner.RunAssembly(testListener, testAssembly);
 
@@ -158,8 +181,9 @@ public class TestClass
     [Test]
     public void TestMethod() {}
 }";
-            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
+            var assemblyFile = CompilerUtilities.Compile(tempDir, testFile, assemblyReferences, source);
             var testAssembly = Assembly.LoadFrom(testFile);
+            var testRunner = createTestRunner();
 
             var state = testRunner.RunNamespace(testListener, testAssembly, "");
 
@@ -194,8 +218,9 @@ public class OutsideNamespace
     public void Test() { }
 }
 ".Replace("{ns}", ns);
-            var assemblyFile = CompilerUtilities.Compile(testFile, assemblyReferences, source);
+            var assemblyFile = CompilerUtilities.Compile(tempDir, testFile, assemblyReferences, source);
             var testAssembly = Assembly.LoadFrom(testFile);
+            var testRunner = createTestRunner();
 
             var state = testRunner.RunNamespace(testListener, testAssembly, ns);
 
@@ -203,6 +228,11 @@ public class OutsideNamespace
             Assert.AreEqual(1, testNames.Count, "Check 1 ran.");
             Assert.IsTrue(testNames.Contains(expectedName), "Check for test name: " + expectedName);
             Assert.AreEqual(TestRunState.Success, state, "Check for success.");
+        }
+
+        ITestRunner createTestRunner()
+        {
+            return new EngineTestRunner();
         }
     }
 }
