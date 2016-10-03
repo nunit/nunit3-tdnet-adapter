@@ -60,6 +60,7 @@
     <Compile Include="Expected\MethodTests.cs" />
     <Compile Include="Expected\NestedClassTests.cs" />
     <Compile Include="Expected\AdHocTests.cs" />
+    <Compile Include="Expected\OneTimeTests.cs" />
     <Compile Include="Expected\OverloadedMethodTests.cs" />
     <Compile Include="Expected\PrivateTests.cs" />
     <Compile Include="Expected\TestCaseTests.cs" />
