@@ -61,7 +61,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CompilerUtilities.cs" />
-    <Compile Include="Expect\ExpectTests.cs" />
     <Compile Include="ConsoleTestRunnerTests.cs" />
     <Compile Include="EngineTestRunnerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
