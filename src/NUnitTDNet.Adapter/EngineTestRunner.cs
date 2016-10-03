@@ -1,10 +1,11 @@
-﻿namespace NUnitTDNet.Adapter
+namespace NUnitTDNet.Adapter
 {
     // We use an alias so that we don't accidentally make
     // references to engine internals, except for creating
     // the engine object in the CreateTestEngine method.
     extern alias ENG;
     using TestEngineClass = ENG::NUnit.Engine.TestEngine;
+    using ENG::NUnit.Engine.Services;
 
     using NUnit.Engine;
     using System;
@@ -18,6 +19,24 @@
     /// </summary>
     public class EngineTestRunner : TDF.ITestRunner
     {
+        TestEngineClass engine;
+
+        public EngineTestRunner()
+        {
+            engine = new TestEngineClass();
+            engine.Services.Add(new SettingsService(false));
+            engine.Services.Add(new ExtensionService());
+
+            engine.Services.Add(new InProcessTestRunnerFactory());
+            engine.Services.Add(new DriverService());
+
+            engine.Services.Add(new TestFilterService()); // +
+            engine.Services.Add(new ProjectService()); // +
+            engine.Services.Add(new RuntimeFrameworkService()); // +
+
+            engine.Services.ServiceManager.StartServices();
+        }
+
         public TDF.TestRunState RunAssembly(TDF.ITestListener testListener, Assembly assembly)
         {
             return run(testListener, assembly, null);
@@ -42,36 +61,28 @@
 
         TDF.TestRunState run(TDF.ITestListener testListener, Assembly testAssembly, string where)
         {
-            using (var engine = new TestEngineClass())
+            string assemblyFile = new Uri(testAssembly.EscapedCodeBase).LocalPath;
+            TestPackage package = new TestPackage(assemblyFile);
+
+            package.AddSetting("ProcessModel", "InProcess");
+            package.AddSetting("DomainUsage", "None");
+
+            ITestRunner runner = engine.GetRunner(package);
+
+            var filterService = engine.Services.GetService<ITestFilterService>();
+            ITestFilterBuilder builder = filterService.GetTestFilterBuilder();
+            if (!string.IsNullOrEmpty(where))
             {
-                string assemblyFile = new Uri(testAssembly.EscapedCodeBase).LocalPath;
-                TestPackage package = new TestPackage(assemblyFile);
-
-                package.AddSetting("ProcessModel", "InProcess");
-                package.AddSetting("DomainUsage", "None");
-
-                ITestRunner runner = engine.GetRunner(package);
-
-                var filterService = engine.Services.GetService<ITestFilterService>();
-                ITestFilterBuilder builder = filterService.GetTestFilterBuilder();
-                if (!string.IsNullOrEmpty(where))
-                {
-                    builder.SelectWhere(where);
-                }
-
-                var filter = builder.GetFilter();
-                var totalTests = runner.CountTestCases(filter);
-                if (totalTests == 0)
-                {
-                    return TDF.TestRunState.NoTests;
-                }
-
-                var testRunnerName = getTestRunnerName(testAssembly);
-                var eventHandler = new TestEventListener(testListener, totalTests, testRunnerName);
-
-                XmlNode result = runner.Run(eventHandler, filter);
-                return eventHandler.TestRunState;
+                builder.SelectWhere(where);
             }
+
+            var filter = builder.GetFilter();
+
+            var testRunnerName = getTestRunnerName(testAssembly);
+            var eventHandler = new TestEventListener(testListener, testRunnerName);
+
+            XmlNode result = runner.Run(eventHandler, filter);
+            return eventHandler.TestRunState;
         }
 
         static string getTestRunnerName(Assembly testRunnerName)
@@ -97,18 +108,21 @@
         public class TestEventListener : ITestEventListener
         {
             TDF.ITestListener testListener;
-            int totalTests;
             string testRunnerName;
 
-            public TDF.TestRunState TestRunState
+            internal TDF.TestRunState TestRunState
             {
                 get; private set;
             }
 
-            public TestEventListener(TDF.ITestListener testListener, int totalTests, string testRunnerName)
+            internal int TotalTests
+            {
+                get; private set;
+            }
+
+            public TestEventListener(TDF.ITestListener testListener, /* int totalTests, */ string testRunnerName)
             {
                 this.testListener = testListener;
-                this.totalTests = totalTests;
                 this.testRunnerName = testRunnerName;
                 TestRunState = TDF.TestRunState.Success;
             }
@@ -118,58 +132,123 @@
                 var doc = new XmlDocument();
                 doc.LoadXml(report);
                 var element = doc.DocumentElement;
-
-                if (element != null && element.Name == "test-case")
+                if(element == null)
                 {
-                    var testCaseElement = doc.DocumentElement;
+                    return;
+                }
 
-                    var testResult = new TDF.TestResult();
-                    testResult.TotalTests = totalTests;
-                    testResult.TestRunnerName = testRunnerName;
+                // Don't output results at assembly level.
+                var type = element.GetAttribute("type");
+                if (type == "Assembly")
+                {
+                    return;
+                }
 
-                    testResult.Name = element.GetAttribute("fullname");
+                switch (element.Name)
+                {
+                    case "start-run":
+                        processStartRun(element);
+                        break;
+                    case "test-case":
+                        processOutput(element);
+                        processTest(element, report, true);
+                        break;
+                    case "test-suite":
+                        processOutput(element);
+                        processTest(element, report, false);
+                        break;
+                    case "test-run":
+                        // Don't process output.
+                        break;
+                }
+            }
 
-                    var message = element.SelectSingleNode("//message");
-                    if (message != null)
+            void processStartRun(XmlElement element)
+            {
+                var countValue = element.GetAttribute("count");
+                if(countValue == null)
+                {
+                    return;
+                }
+
+                int count;
+                if (int.TryParse(countValue, out count))
+                {
+                    TotalTests = count;
+                    if(count == 0)
                     {
-                        var text = trimNewLine(message.InnerText);
-                        testResult.Message = text;
+                        TestRunState = TDF.TestRunState.NoTests;
                     }
+                }
+            }
 
-                    var stackTrace = element.SelectSingleNode("//stack-trace");
-                    if (stackTrace != null)
-                    {
-                        testResult.StackTrace = stackTrace.InnerText;
-                    }
+            void processTest(XmlElement element, string report, bool isTestCase)
+            {
+                var testResult = new TDF.TestResult();
+                testResult.TotalTests = TotalTests;
+                testResult.TestRunnerName = testRunnerName;
 
-                    var output = element.SelectSingleNode("//output");
-                    if (output != null)
-                    {
-                        var text = trimNewLine(output.InnerText);
-                        testListener.WriteLine(text, TDF.Category.Output);
-                    }
+                testResult.Name = element.GetAttribute("fullname");
 
-                    var result = element.GetAttribute("result");
-                    switch (result)
-                    {
-                        case "Failed":
-                            testResult.State = TDF.TestState.Failed;
-                            TestRunState = TDF.TestRunState.Failure;
-                            break;
-                        case "Passed":
-                            testResult.State = TDF.TestState.Passed;
-                            break;
-                        case "Skipped":
-                        case "Inconclusive":
-                            testResult.State = TDF.TestState.Ignored;
-                            break;
-                        default:
-                            testListener.WriteLine("Unknown 'result': " + result + "\n" + report, TDF.Category.Error);
-                            testResult.State = TDF.TestState.Failed;
-                            break;
-                    }
+                var messageElement = element.SelectSingleNode("//message");
+                if (messageElement != null)
+                {
+                    var text = trimNewLine(messageElement.InnerText);
+                    testResult.Message = text;
+                }
 
+                var stackTraceElement = element.SelectSingleNode("//stack-trace");
+                if (stackTraceElement != null)
+                {
+                    testResult.StackTrace = stackTraceElement.InnerText;
+                }
+
+                var result = element.GetAttribute("result");
+
+                TDF.TestState state;
+                switch (result)
+                {
+                    // What about Error?
+                    case "Failed":
+                        state = TDF.TestState.Failed;
+                        TestRunState = TDF.TestRunState.Failure;
+                        break;
+                    case "Passed":
+                        state = TDF.TestState.Passed;
+                        break;
+                    case "Skipped":
+                    case "Inconclusive":
+                        state = TDF.TestState.Ignored;
+                        break;
+                    default:
+                        state = TDF.TestState.Failed;
+                        testListener.WriteLine("Unknown 'result': " + result + "\n" + report, TDF.Category.Error);
+                        break;
+                }
+
+                testResult.State = state;
+
+                if (isTestCase)
+                {
                     testListener.TestFinished(testResult);
+                    return;
+                }
+
+                // Fake failed test when fixture contains stack trace info.
+                if (!isTestCase && testResult.StackTrace != null)
+                {
+                    testListener.TestFinished(testResult);
+                    return;
+                }
+            }
+
+            void processOutput(XmlElement element)
+            {
+                var output = element.SelectSingleNode("//output");
+                if (output != null)
+                {
+                    var text = trimNewLine(output.InnerText);
+                    testListener.WriteLine(text, TDF.Category.Output);
                 }
             }
 
