@@ -17,6 +17,12 @@
             Assert.Fail("Boom!");
         }
 
+        [Test, ExpectTestRun(TestRunState.Failure, FailedCount = 1)]
+        public void Error()
+        {
+            throw new System.Exception("Boom!");
+        }
+
         [Test, ExpectTestRun(TestRunState.Success, IgnoredCount = 1)]
         public void AssertIgnore()
         {
