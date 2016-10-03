@@ -61,10 +61,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CompilerUtilities.cs" />
-    <Compile Include="Expect\ExpectAttributeExplorer.cs" />
-    <Compile Include="Expect\ExpectEntry.cs" />
     <Compile Include="Expect\ExpectTests.cs" />
-    <Compile Include="Fakes\FakeTestListener.cs" />
     <Compile Include="ConsoleTestRunnerTests.cs" />
     <Compile Include="EngineTestRunnerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,6 +75,10 @@
     <ProjectReference Include="..\NUnitTDNet.Adapter\NUnitTDNet.Adapter.csproj">
       <Project>{2081557b-25c1-4911-a9ac-7012452c6cdf}</Project>
       <Name>NUnitTDNet.Adapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NUnitTDNet.Expected\NUnitTDNet.Expected.csproj">
+      <Project>{888430c4-b097-4a33-8ec8-507c4a701a26}</Project>
+      <Name>NUnitTDNet.Expected</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using NUnitTDNet.Adapter.Examples.Expected;
+using NUnitTDNet.Expected;
 
 namespace NUnitTDNet.Adapter.Examples.Expected
 {

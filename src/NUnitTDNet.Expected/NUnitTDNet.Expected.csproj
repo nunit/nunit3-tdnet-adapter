@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{43CF5827-7A7A-4A53-B5DD-FADC41900E53}</ProjectGuid>
+    <ProjectGuid>{888430C4-B097-4A33-8EC8-507C4A701A26}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NUnitTDNet.Adapter.Examples</RootNamespace>
-    <AssemblyName>NUnitTDNet.Adapter.Examples</AssemblyName>
+    <RootNamespace>NUnitTDNet.Expected</RootNamespace>
+    <AssemblyName>NUnitTDNet.Expected</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,8 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,47 +43,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomTestRunner.cs" />
-    <Compile Include="Expected\AbstractTests.cs" />
-    <Compile Include="Expected\ExpectClass.cs" />
-    <Compile Include="Expected\ClassTests.cs" />
-    <Compile Include="Expected\ExplicitTests.cs" />
-    <Compile Include="Expected\GenericTestFixtures.cs" />
-    <Compile Include="Expected\GenericTests.cs" />
-    <Compile Include="Expected\InconclusiveTests.cs" />
-    <Compile Include="Expected\MethodTests.cs" />
-    <Compile Include="Expected\NestedClassTests.cs" />
-    <Compile Include="Expected\AdHocTests.cs" />
-    <Compile Include="Expected\OverloadedMethodTests.cs" />
-    <Compile Include="Expected\PrivateTests.cs" />
-    <Compile Include="Expected\TestCaseTests.cs" />
-    <Compile Include="Expected\StateTests.cs" />
-    <Compile Include="Expected\TestOutputLines.cs" />
-    <Compile Include="Expected\TestTotalTests.cs" />
-    <Compile Include="Expected\TestStackTraces.cs" />
-    <Compile Include="Expected\TestMessages.cs" />
-    <Compile Include="Expected\TestNames.cs" />
-    <Compile Include="SomeTestCases.cs" />
-    <Compile Include="SomeTests.cs" />
+    <Compile Include="ExpectAttribute.cs" />
+    <Compile Include="ExpectAttributeExplorer.cs" />
+    <Compile Include="ExpectEntry.cs" />
+    <Compile Include="FakeTestListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OneTime.cs" />
-    <Compile Include="TwoPassingTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NUnitTDNet.Adapter\NUnitTDNet.Adapter.csproj">
-      <Project>{2081557b-25c1-4911-a9ac-7012452c6cdf}</Project>
-      <Name>NUnitTDNet.Adapter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NUnitTDNet.Expected\NUnitTDNet.Expected.csproj">
-      <Project>{888430c4-b097-4a33-8ec8-507c4a701a26}</Project>
-      <Name>NUnitTDNet.Expected</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

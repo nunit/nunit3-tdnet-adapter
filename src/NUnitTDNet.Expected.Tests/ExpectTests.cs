@@ -1,30 +1,31 @@
 ﻿namespace NUnitTDNet.Adapter.Tests.Expect
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using TestDriven.Framework;
-    using Fakes;
     using System.Reflection;
+    using System.Collections.Generic;
+    using Fakes;
     using Expected;
+    using NUnit.Framework;
+    using TestDriven.Framework;
 
-    [TestClass]
     public class ExpectTests
     {
-        [TestMethod]
-        public void ExpectAttributeBasedAssertions()
+        static Assembly testAssembly =
+            typeof(Examples.Expected.ExpectClass).Assembly;
+
+        [TestCaseSource(nameof(FindExpectEntries))]
+        public void ExpectEntryTests(ExpectEntry expectEntry)
         {
-            var sampleType = typeof(NUnitTDNet.Adapter.Examples.Expected.ExpectClass);
-            var testAssembly = sampleType.Assembly;
-            var explorer = new ExpectAttributeExplorer(testAssembly);
-            var testRunner = new EngineTestRunner();
-            foreach (var expectEntry in explorer)
-            {
-                Console.WriteLine(expectEntry.Name);
-                ExpectAttributeBasedAssertions(testRunner, expectEntry);
-            }
+            ITestRunner testRunner = new EngineTestRunner();
+            ExpectAttributeBasedAssertions(testRunner, expectEntry);
         }
 
-        public void ExpectAttributeBasedAssertions(ITestRunner testRunner, ExpectEntry expectEntry)
+        public static IEnumerable<ExpectEntry> FindExpectEntries()
+        {
+            return new ExpectAttributeExplorer(testAssembly);
+        }
+
+        static void ExpectAttributeBasedAssertions(ITestRunner testRunner, ExpectEntry expectEntry)
         {
             var name = expectEntry.Name;
             var testAssembly = expectEntry.TestAssembly;
@@ -99,13 +100,13 @@
                 if (expectTestAttribute.StackTraceStartsWith != null)
                 {
                     string message = string.Format("Checking 'StackTrace' for test: " + expectName);
-                    StringAssert.StartsWith(testResult.StackTrace, expectTestAttribute.StackTraceStartsWith, message);
+                    Assert.That(testResult.StackTrace, Does.StartWith(expectTestAttribute.StackTraceStartsWith), message);
                 }
 
                 if (expectTestAttribute.StackTraceEndsWith != null)
                 {
                     string message = string.Format("Checking 'StackTrace' for test: " + expectName);
-                    StringAssert.EndsWith(testResult.StackTrace, expectTestAttribute.StackTraceEndsWith, message);
+                    Assert.That(testResult.StackTrace, Does.EndWith(expectTestAttribute.StackTraceEndsWith), message);
                 }
 
                 if (expectTestAttribute.TotalTests >= 0)
@@ -151,7 +152,7 @@
             }
         }
 
-        private string getNamespace(MemberInfo member)
+        static string getNamespace(MemberInfo member)
         {
             var type = member as Type;
             if (type == null)

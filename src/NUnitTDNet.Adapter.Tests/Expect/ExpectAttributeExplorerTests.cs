@@ -4,6 +4,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NUnitTDNet.Adapter.Examples.Expected;
     using System.Threading;
+    using Expected;
 
     [TestClass]
     public class ExpectAttributeExplorerTests

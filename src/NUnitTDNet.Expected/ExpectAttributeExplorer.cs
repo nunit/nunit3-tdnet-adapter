@@ -1,7 +1,5 @@
-﻿namespace NUnitTDNet.Adapter.Tests
+﻿namespace NUnitTDNet.Expected
 {
-    using Expect;
-    using NUnitTDNet.Adapter.Examples.Expected;
     using System;
     using System.Collections.Generic;
     using System.Reflection;

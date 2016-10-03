@@ -1,4 +1,4 @@
-﻿namespace NUnitTDNet.Adapter.Examples.Expected
+﻿namespace NUnitTDNet.Expected
 {
     using System;
     using TestDriven.Framework;

@@ -1,6 +1,7 @@
 ﻿namespace NUnitTDNet.Adapter.Examples.Expected
 {
     using NUnit.Framework;
+    using NUnitTDNet.Expected;
     using TestDriven.Framework;
 
     // All test methods with same name will be run.

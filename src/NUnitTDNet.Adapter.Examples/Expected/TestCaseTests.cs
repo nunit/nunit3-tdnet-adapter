@@ -3,6 +3,7 @@
     using System;
     using NUnit.Framework;
     using TestDriven.Framework;
+    using NUnitTDNet.Expected;
 
     public class TestCaseTests
     {

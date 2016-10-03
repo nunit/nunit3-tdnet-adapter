@@ -1,6 +1,5 @@
-﻿namespace NUnitTDNet.Adapter.Tests.Expect
+﻿namespace NUnitTDNet.Expected
 {
-    using Examples.Expected;
     using System.Reflection;
 
     public class ExpectEntry
@@ -31,6 +30,11 @@
             TestAssembly = testAssembly;
             Member = member;
             ExpectAttribute = expectAttribute;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

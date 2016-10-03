@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using TestDriven.Framework;
 
-    class FakeTestListener : ITestListener
+    public class FakeTestListener : ITestListener
     {
         public FakeTestListener()
         {

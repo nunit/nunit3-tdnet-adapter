@@ -1,6 +1,7 @@
 ﻿namespace NUnitTDNet.Adapter.Examples.Expected
 {
     using NUnit.Framework;
+    using NUnitTDNet.Expected;
     using TestDriven.Framework;
 
     [ExpectTestRun(TestRunState.Failure, FailedCount = 1, PassedCount = 1)]

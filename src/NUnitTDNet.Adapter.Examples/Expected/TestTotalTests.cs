@@ -1,6 +1,7 @@
 ﻿namespace NUnitTDNet.Adapter.Examples.Expected
 {
     using NUnit.Framework;
+    using NUnitTDNet.Expected;
 
     [ExpectTest(ClassName + ".OneTest", TotalTests = 3)]
     public class TestTotalTests
