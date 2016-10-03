@@ -24,15 +24,15 @@ namespace NUnitTDNet.Adapter
         public EngineTestRunner()
         {
             engine = new TestEngineClass();
-            engine.Services.Add(new SettingsService(false));
+            engine.Services.Add(new SettingsService(false)); // Might not be required.
             engine.Services.Add(new ExtensionService());
 
             engine.Services.Add(new InProcessTestRunnerFactory());
             engine.Services.Add(new DriverService());
 
-            engine.Services.Add(new TestFilterService()); // +
-            engine.Services.Add(new ProjectService()); // +
-            engine.Services.Add(new RuntimeFrameworkService()); // +
+            engine.Services.Add(new TestFilterService());
+            engine.Services.Add(new ProjectService());
+            engine.Services.Add(new RuntimeFrameworkService());
 
             engine.Services.ServiceManager.StartServices();
         }
@@ -120,7 +120,7 @@ namespace NUnitTDNet.Adapter
                 get; private set;
             }
 
-            public TestEventListener(TDF.ITestListener testListener, /* int totalTests, */ string testRunnerName)
+            public TestEventListener(TDF.ITestListener testListener, string testRunnerName)
             {
                 this.testListener = testListener;
                 this.testRunnerName = testRunnerName;
@@ -156,6 +156,9 @@ namespace NUnitTDNet.Adapter
                     case "test-suite":
                         processOutput(element);
                         processTest(element, report, false);
+                        break;
+                    case "test-output":
+                        processTestOutput(element);
                         break;
                     case "test-run":
                         // Don't process output.
@@ -208,7 +211,6 @@ namespace NUnitTDNet.Adapter
                 TDF.TestState state;
                 switch (result)
                 {
-                    // What about Error?
                     case "Failed":
                         state = TDF.TestState.Failed;
                         TestRunState = TDF.TestRunState.Failure;
@@ -250,6 +252,12 @@ namespace NUnitTDNet.Adapter
                     var text = trimNewLine(output.InnerText);
                     testListener.WriteLine(text, TDF.Category.Output);
                 }
+            }
+
+            void processTestOutput(XmlElement element)
+            {
+                var text = trimNewLine(element.InnerText);
+                testListener.WriteLine(text, TDF.Category.Output);
             }
 
             static string trimNewLine(string text)

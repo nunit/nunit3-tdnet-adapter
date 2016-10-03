@@ -10,6 +10,13 @@
         const string ClassName = "NUnitTDNet.Adapter.Examples.Expected.OutputLineTests";
 
         [Test]
+        [ExpectOutputLine("__TestContext_Progress_WriteLine__")]
+        public void TestContext_Progress_WriteLine()
+        {
+            TestContext.Progress.WriteLine("__TestContext_Progress_WriteLine__");
+        }
+
+        [Test]
         [ExpectOutputLine("Hello, World!")]
         public void HelloWorld()
         {
