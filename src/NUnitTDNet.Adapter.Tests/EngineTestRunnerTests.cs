@@ -233,6 +233,68 @@ public class OutsideNamespace
             Assert.AreEqual(TestRunState.Success, state, "Check for success.");
         }
 
+        [TestMethod]
+        public void RunMember_OneTimeSetUpWithOutput_ShowsOutput()
+        {
+            var testListener = new FakeTestListener();
+            var testClass = typeof(OneTime.SetUpWithOutput);
+            var testAssembly = testClass.Assembly;
+            var testRunner = createTestRunner();
+
+            testRunner.RunMember(testListener, testAssembly, testClass);
+
+            Assert.AreEqual(1, testListener.OutputLines.Count);
+            Assert.AreEqual("__OneTimeSetUp__", testListener.OutputLines[0].Item1);
+        }
+
+        [TestMethod]
+        public void RunMember_OneTimeTearDownWithOutput_ShowsOutput()
+        {
+            var testListener = new FakeTestListener();
+            var testClass = typeof(OneTime.TearDownWithOutput);
+            var testAssembly = testClass.Assembly;
+            var testRunner = createTestRunner();
+
+            testRunner.RunMember(testListener, testAssembly, testClass);
+
+            Assert.AreEqual(1, testListener.OutputLines.Count);
+            Assert.AreEqual("__OneTimeTearDown__", testListener.OutputLines[0].Item1);
+        }
+
+        [TestMethod]
+        public void RunMember_OneTime_ShowsOutput()
+        {
+            var testListener = new FakeTestListener();
+            var testClass = typeof(OneTime);
+            var testAssembly = testClass.Assembly;
+            var testRunner = createTestRunner();
+
+            testRunner.RunMember(testListener, testAssembly, testClass);
+
+            foreach(var l in testListener.OutputLines)
+            {
+                Console.WriteLine(l.Item2 + ": " + l.Item1);
+            }
+
+            Assert.AreEqual(2, testListener.OutputLines.Count);
+            Assert.AreEqual("__OneTimeSetUp__", testListener.OutputLines[0].Item1);
+            Assert.AreEqual("__OneTimeTearDown__", testListener.OutputLines[1].Item1);
+        }
+
+        [TestMethod]
+        public void RunMember_SetUpThrowsNotImplementedException_ShowsAsFailedTest()
+        {
+            var testListener = new FakeTestListener();
+            var testClass = typeof(OneTime.SetUpThrowsNotImplementedException);
+            var testAssembly = testClass.Assembly;
+            var testRunner = createTestRunner();
+
+            testRunner.RunMember(testListener, testAssembly, testClass);
+
+            Assert.AreEqual(3, testListener.FailedCount);
+            Assert.IsNotNull(testListener.GetTestResult(testClass.FullName), "Check test result for failed fixture.");
+        }
+
         ITestRunner createTestRunner()
         {
             return new EngineTestRunner();
