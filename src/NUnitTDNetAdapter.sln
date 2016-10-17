@@ -11,8 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTDNet.Adapter.Examples
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4C3C728C-61A3-468E-AD77-3D83D12760BF}"
 	ProjectSection(SolutionItems) = preProject
-		..\nuget\nunit3-tdnet-adapter.nuspec = ..\nuget\nunit3-tdnet-adapter.nuspec
-		..\install\nunitaddin.wxs = ..\install\nunitaddin.wxs
+		..\package\NUnitTDNet.nuspec = ..\package\NUnitTDNet.nuspec
+		..\package\NUnitTDNet.wxs = ..\package\NUnitTDNet.wxs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTDNet.Expected", "NUnitTDNet.Expected\NUnitTDNet.Expected.csproj", "{888430C4-B097-4A33-8EC8-507C4A701A26}"

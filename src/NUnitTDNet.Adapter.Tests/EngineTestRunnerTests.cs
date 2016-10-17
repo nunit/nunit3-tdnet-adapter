@@ -271,11 +271,6 @@ public class OutsideNamespace
 
             testRunner.RunMember(testListener, testAssembly, testClass);
 
-            foreach(var l in testListener.OutputLines)
-            {
-                Console.WriteLine(l.Item2 + ": " + l.Item1);
-            }
-
             Assert.AreEqual(2, testListener.OutputLines.Count);
             Assert.AreEqual("__OneTimeSetUp__", testListener.OutputLines[0].Item1);
             Assert.AreEqual("__OneTimeTearDown__", testListener.OutputLines[1].Item1);
