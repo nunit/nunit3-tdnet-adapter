@@ -1,8 +1,11 @@
 ﻿/build
 **/packages/
 **/bin/Debug/
+**/bin/Release/
 **/obj/Debug/
+**/obj/Release/
 *.suo
 *.user
 /TestResults
 /build
+**/.vs/
