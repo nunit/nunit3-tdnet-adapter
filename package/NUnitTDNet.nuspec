@@ -6,10 +6,10 @@
     <version>$version$.$BuildNumber$$PreRelease$</version>
     <authors>Jamie Cansdale, Charlie Poole</authors>
     <owners>Jamie Cansdale</owners>
-    <licenseUrl>http://nunit.org/nuget/nunit3-license.txt</licenseUrl>
-    <projectUrl>http://testdriven.net</projectUrl>
+    <licenseUrl>https://nunit.org/nuget/nunit3-license.txt</licenseUrl>
+    <projectUrl>https://testdriven.net</projectUrl>
     <repository type="git" url="https://github.com/nunit/nunit3-tdnet-adapter"/>
-    <iconUrl>http://nunit.org/nuget/nunitv3_32x32.png</iconUrl>
+    <iconUrl>https://nunit.org/nuget/nunitv3_32x32.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>NUnit $version$ framework and test runner adapter for TestDriven.Net</summary>
     <description>This package includes the NUnit $version$ framework assembly, which is referenced by your tests. It also includes a test runner adapter that is used by TestDriven.Net when executing tests. The adapter is named 'nunit.framework.dll.tdnet' and must live in the same directory as the referenced 'nunit.framework.dll'.</description>
