@@ -34,4 +34,4 @@ jobs:
       run: msbuild NUnitTDNetAdapter.sln
       working-directory: src
 
-    - run: mstest
+    - run: vstest.console.exe
