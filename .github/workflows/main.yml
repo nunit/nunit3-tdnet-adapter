@@ -33,3 +33,5 @@ jobs:
     - name: MSBuild
       run: msbuild NUnitTDNetAdapter.sln
       working-directory: src
+
+    - run: mstest
