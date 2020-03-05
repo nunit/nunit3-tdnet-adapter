@@ -21,5 +21,10 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-    - run: msbuild src/NUnitTDNetAdapter.sln
+      
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.0
+      
+    - name: MSBuild
+      run: msbuild NUnitTDNetAdapter.sln
+      working-directory: src
