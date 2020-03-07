@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BaseDirectoryGuardTests.cs" />
     <Compile Include="CompilerUtilities.cs" />
     <Compile Include="EngineTestRunnerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
