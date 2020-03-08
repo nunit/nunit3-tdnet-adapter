@@ -4,6 +4,10 @@ using TestDriven.Framework;
 
 namespace NUnitTDNet.Adapter
 {
+    // Fix for NUnit3TestAdapter copying `nunit.engine` and `nunit.engine.api`
+    // into the output directory. Move them out of the way while TestDriven.NET
+    // is executing tests. See:
+    // https://github.com/jcansdale/TestDriven.Net-Issues/issues/153
     public class BaseDirectoryGuardEngineTestRunner : ITestRunner
     {
         readonly static string[] dependencies = new[]
